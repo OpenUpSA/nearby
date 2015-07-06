@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block title %}Find Your Ward Councillor{% endblock %}
+{% block content %}
+
+<h2>Find Your Ward Councillor</h2>
+
+<form action="{% url 'wardcouncillor' %}" method="GET">
+  <input type="text" placeholder="What is your address?" name="address" value="{{ address }}">
+  <input type="submit">
+</form>
+
+{% if bad_address %}
+<div class="alert alert-danger">We couldn't find your ward.</div>
+{% endif %}
+
+{% if location.ward %}
+<div class="result-card">
+  {% if location.councillor %}
+  <div class="media">
+    <div class="media-left">
+      <img class="media-object" src="http://www.elections.org.za/content/img_parties/{{ location.councillor.PartyDetail.LogoUrl }}">
+    </div>
+    <div class="media-body">
+      <div class="councillor">
+        <h2 class="media-heading">{{ location.councillor.Name }}</h2>
+        <h4 class="party">{{ location.councillor.PartyDetail.Name }}</h4>
+
+        <h4 class="ward">Ward {{ location.ward_code }}</h4>
+        <h4 class="municipality">{{ location.municipality }}, {{ location.province }}</h4>
+        <h4><a href="{{ location.councillor.Municipality.ContactDetails.WebsiteUrl }}">{{ location.councillor.Municipality.ContactDetails.WebsiteUrl }}</a></h4>
+      </div>
+    </div>
+  {% endif %}
+</div>
+
+<pre>{{ location.councillor }}</pre>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,26 @@
+$icon-font-path: '../bower_components/bootstrap-sass/assets/fonts/bootstrap/';
+
+@import 'bootstrap-sass/assets/stylesheets/_bootstrap.scss';
+@import 'bootstrap-sass/assets/stylesheets/bootstrap/theme.scss';
+
+.ward-councillor-info {
+  font-size: 16px;
+
+  .find-councillor {
+    margin-bottom: 20px;
+  }
+
+  section {
+    margin-bottom: 30px;
+  }
+
+  .councillor {
+    h3 {
+      margin: 0px;
+    }
+  }
+
+  .fa-ul {
+    margin-left: 1.5em;
+  }
+}
