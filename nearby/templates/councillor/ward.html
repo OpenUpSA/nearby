@@ -10,6 +10,10 @@
       <section class="councillor">
         <h1>{{ location.councillor.Name }}</h1>
 
+        <div class="pull-right">
+          <div class="fb-share-button" data-layout="button_count" data-href="http://nearby.code4sa.org{% url 'councillor' %}"></div>
+        </div>
+
         <h3 class="ward">Ward {{ location.ward_id }}</h3>
         <h3 class="municipality">{{ location.municipality }}, {{ location.province }}</h3>
       </section>
