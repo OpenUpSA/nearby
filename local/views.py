@@ -41,9 +41,7 @@ def councillor(request):
 
 
 def ward_councillor(request, ward_id):
-    councillor = {u'Delimitation': {u'Province': u'Western Cape', u'Municipality': u'CPT - City of Cape Town [Cape Town]', u'VDNumber': 0, u'MunicipalityID': 9006, u'WardID': 19100064, u'ProvinceID': 9}, u'PartyDetail': {u'RegLevel': u'National', u'ContactDetails': {u'WebsiteUrl': u'HTTP://WWW.DA.ORG.ZA', u'Fax': u'0866549352', u'Tel': u'0847138658', u'PostalAddress': u'PO BOX 1475 CAPE TOWN   8000', u'ContactPerson': u'EUGENE ANTON DANIELS'}, u'Name': u'DEMOCRATIC ALLIANCE', u'Abbreviation': u'DA', u'RegStatus': u'Registered', u'LogoUrl': u'DA.jpg', u'ID': 52}, u'Name': u"DAVID JOHN D'ALTON", u'Municipality': {u'ContactDetails': {u'WebsiteUrl': u'www.capetown.gov.za', u'Fax': u'0860103090', u'Tel': u'021 400 1111', u'PostalAddress': u'', u'ContactPerson': u''}, u'ID': 9006, u'Name': u'CPT - City of Cape Town [Cape Town]'}}
-
-    #councillor = finder.councillor_for_ward(ward_id)
+    councillor = finder.councillor_for_ward(ward_id)
     if not councillor:
         raise Http404()
 
