@@ -10,10 +10,12 @@ $(function() {
     }
 
     function noLocation() {
-        alert('Sorry, your browser was unable to determine your location.');
+      $('.btn.locate span').text('Use your location');
+      alert('Sorry, your browser was unable to determine your location.');
     }
 
     if (navigator.geolocation) {
+      $('.btn.locate span').text('Locating...');
       navigator.geolocation.getCurrentPosition(foundLocation, noLocation, {timeout:10000});
     } else {
       noLocation();
