@@ -1,6 +1,6 @@
 {
   "name": "code4sa-styles",
-  "version": "0.9.0",
+  "version": "0.9.3",
   "homepage": "https://github.com/Code4SA/styles",
   "authors": [
     "Greg Kempe <greg@code4sa.org>",
@@ -12,14 +12,14 @@
     "**/.*",
     "bower_components"
   ],
-  "_release": "0.9.0",
+  "_release": "0.9.3",
   "_resolution": {
     "type": "version",
-    "tag": "v0.9.0",
-    "commit": "b85ef196f9c4c0ebf083497ac343a737240fbaff"
+    "tag": "v0.9.3",
+    "commit": "48f0985443ae19ae708a19fa9c5286ff7e694e95"
   },
   "_source": "git://github.com/Code4SA/styles.git",
-  "_target": "~0.9.0",
+  "_target": "~0.9.3",
   "_originalSource": "code4sa-styles",
   "_direct": true
 }
