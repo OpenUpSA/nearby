@@ -1,7 +1,6 @@
-$icon-font-path: '../bower_components/bootstrap-sass/assets/fonts/bootstrap/';
-
-@import 'bootstrap-sass/assets/stylesheets/_bootstrap.scss';
-@import 'bootstrap-sass/assets/stylesheets/bootstrap/theme.scss';
+body {
+  background: white;
+}
 
 .ward-councillor-info {
   font-size: 16px;
@@ -25,10 +24,23 @@ $icon-font-path: '../bower_components/bootstrap-sass/assets/fonts/bootstrap/';
   }
 }
 
+.find-councillor {
+  margin-top: 10px;
+}
+
 .full-xs {
   width: 100%;
 
   @media (min-width: 768px) {
     width: auto;
+  }
+}
+
+footer {
+  margin-top: 40px;
+  margin-bottom: 40px;
+
+  img {
+    height: 40px;
   }
 }

@@ -1,10 +1,14 @@
-{% extends "layout.html" %}
+{% extends "councillor/layout.html" %}
 
 {% block title %}Find Your Ward Councillor{% endblock %}
-{% block content %}
+{% block main-content %}
 
 <div class="container-fluid ward-councillor-search">
   {% include 'councillor/_form.html' %}
+
+  {% if bad_address %}
+  <div class="alert alert-danger">Sorry, we couldn't find your ward.</div>
+  {% endif %}
 </div>
 
 {% endblock %}

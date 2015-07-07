@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block content %}
+
+  {% block main-content %}
+  {% endblock %}
+
+  {% block footer %}
+  <footer>
+    <div class="container-fluid text-center">
+      <a href="http://code4sa.org"><img src="{% static 'bower_components/code4sa-styles/images/code4sa_logo_black.png' %}"></a>
+    </div>
+  </footer>
+  {% endblock %}
+
+{% endblock %}

@@ -1,7 +1,7 @@
-{% extends "layout.html" %}
+{% extends "councillor/layout.html" %}
 
 {% block title %}Ward {{ location.ward_id }}, {{ location.municipality}} - Ward Councillor{% endblock %}
-{% block content %}
+{% block main-content %}
 
 <div class="container-fluid ward-councillor-info">
   {% include 'councillor/_form.html' %}
@@ -9,7 +9,7 @@
   <div class="row">
     <div class="col-sm-8">
       <section class="councillor">
-        <h2>{{ location.councillor.Name }}</h2>
+        <h1>{{ location.councillor.Name }}</h1>
 
         <h3 class="ward">Ward {{ location.ward_id }}</h3>
         <h3 class="municipality">{{ location.municipality }}, {{ location.province }}</h3>
@@ -20,13 +20,13 @@
       <section class="municipality">
         <h3 class="municipality">{{ location.municipality }}</h3>
 
-        <ul class="fa-ul">
+        <ul class="list-unstyled">
           <li>
-            <i class="fa fa-li fa-home"></i>
+            <i class="fa fa-fw fa-home"></i>
             <a href="http://{{ location.councillor.Municipality.ContactDetails.WebsiteUrl }}" target="_blank">{{ location.councillor.Municipality.ContactDetails.WebsiteUrl }}</a>
           </li>
           <li>
-            <i class="fa fa-li fa-phone"></i> {{ location.councillor.Municipality.ContactDetails.Tel }}
+            <i class="fa fa-fw fa-phone"></i> {{ location.councillor.Municipality.ContactDetails.Tel }}
           </li>
         </ul>
       </section>
@@ -36,13 +36,13 @@
       <section class="party">
         <h3 class="party">{{ location.councillor.PartyDetail.Name }}</h3>
 
-        <ul class="fa-ul">
+        <ul class="list-unstyled">
           <li>
-            <i class="fa fa-li fa-home"></i>
+            <i class="fa fa-fw fa-home"></i>
             <a href="http://{{ location.councillor.PartyDetail.ContactDetails.WebsiteUrl }}" target="_blank">{{ location.councillor.PartyDetail.ContactDetails.WebsiteUrl }}</a>
           </li>
           <li>
-            <i class="fa fa-li fa-phone"></i> {{ location.councillor.PartyDetail.ContactDetails.Tel }}
+            <i class="fa fa-fw fa-phone"></i> {{ location.councillor.PartyDetail.ContactDetails.Tel }}
           </li>
         </ul>
       </section>
@@ -52,6 +52,8 @@
       <!-- MAP -->
     </div>
   </div>
+
+  <hr>
 </div>
 
 {% endblock %}

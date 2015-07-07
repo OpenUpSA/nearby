@@ -1,4 +1,4 @@
-<form class="find-councillor" action="{% url 'councillor' %}" method="GET">
+<form class="find-councillor slab-light-gray" action="{% url 'councillor' %}" method="GET">
   <h3>Find your ward councillor</h3>
 
   <label for="address" class="form-label">What is your address?</label>
@@ -9,14 +9,14 @@
         <div class="input-group">
           <input type="text" class="form-control" id="address" name="address" value="{{ address }}">
           <span class="input-group-btn">
-            <input type="submit" class="btn btn-default" value="Go">
+            <input type="submit" class="btn btn-primary" value="Go">
           </span>
         </div>
       </div>
     </div>
 
     <div class="col-sm-6 locate-button">
-      <button type="button" class="btn btn-default locate full-xs">
+      <button type="button" class="btn btn-primary locate full-xs">
         <i class="fa fa-map-marker"></i> Use your location
       </button>
     </div>
