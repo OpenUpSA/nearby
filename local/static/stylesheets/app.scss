@@ -24,3 +24,11 @@ $icon-font-path: '../bower_components/bootstrap-sass/assets/fonts/bootstrap/';
     margin-left: 1.5em;
   }
 }
+
+.full-xs {
+  width: 100%;
+
+  @media (min-width: 768px) {
+    width: auto;
+  }
+}

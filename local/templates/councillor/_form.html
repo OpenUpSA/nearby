@@ -1,9 +1,24 @@
 <form class="find-councillor" action="{% url 'councillor' %}" method="GET">
-  <h4>Find your ward councillor</h4>
+  <h3>Find your ward councillor</h3>
 
-  <div class="input-group">
-    <label for="address" class="form-label">What is your address?</label>
-    <input type="text" class="form-control" placeholder="What is your address?" id="address" name="address" value="{{ address }}">
+  <label for="address" class="form-label">What is your address?</label>
+
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="form-group">
+        <div class="input-group">
+          <input type="text" class="form-control" id="address" name="address" value="{{ address }}">
+          <span class="input-group-btn">
+            <input type="submit" class="btn btn-default" value="Go">
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-6 locate-button">
+      <button type="button" class="btn btn-default locate full-xs">
+        <i class="fa fa-map-marker"></i> Use your location
+      </button>
+    </div>
   </div>
-  <input type="submit" class="btn btn-default" value="Find your ward">
 </form>

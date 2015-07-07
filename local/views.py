@@ -20,15 +20,21 @@ def normalise_url(url):
 
 
 def councillor(request):
-    # TODO: handle browser location
     bad_address = False
+    ward = None
 
     if request.GET.get('address'):
         ward = finder.ward_for_address(request.GET.get('address'))
-        if ward:
-            return redirect(reverse('ward_councillor', kwargs={'ward_id': ward['ward']}))
+        if not ward:
+            bad_address = True
 
-        bad_address = True
+    if request.GET.get('lat') and request.GET.get('lng'):
+        ward = finder.ward_for_location(request.GET.get('lat'), request.GET.get('lng'))
+        if not ward:
+            bad_address = True
+
+    if ward:
+        return redirect(reverse('ward_councillor', kwargs={'ward_id': ward['ward']}))
 
     return render(request, 'councillor/index.html', dict(
                   bad_address=bad_address))

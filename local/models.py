@@ -66,6 +66,9 @@ class WardInfoFinder(object):
 
         return data[0]
 
+    def ward_for_location(self, lat, lng):
+        return self.ward_for_address('%s,%s' % (lat, lng))
+
     def councillor_for_ward(self, ward):
         resp = self.iec.get('/api/v1/LGEWardCouncilor?WardID=%s' % ward)
         resp.raise_for_status()
