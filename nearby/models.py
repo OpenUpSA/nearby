@@ -72,4 +72,8 @@ class WardInfoFinder(object):
     def councillor_for_ward(self, ward):
         resp = self.iec.get('/api/v1/LGEWardCouncilor?WardID=%s' % ward)
         resp.raise_for_status()
+
+        if resp.status_code == 204 or not resp.text:
+            return None
+
         return resp.json()
