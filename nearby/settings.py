@@ -46,7 +46,7 @@ INSTALLED_APPS = (
     'pipeline',
     'django_extensions',
 
-    'local',
+    'nearby',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -59,9 +59,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'local.urls'
+ROOT_URLCONF = 'nearby.urls'
 
-WSGI_APPLICATION = 'local.wsgi.application'
+WSGI_APPLICATION = 'nearby.wsgi.application'
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 
@@ -93,7 +93,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.static",
     "django.core.context_processors.tz",
     "django.contrib.messages.context_processors.messages",
-    "local.context_processors.google_analytics",
+    "nearby.context_processors.google_analytics",
 )
 
 
@@ -117,8 +117,8 @@ STATICFILES_FINDERS = (
 )
 
 PYSCSS_LOAD_PATHS = [
-    os.path.join(BASE_DIR, 'local', 'static'),
-    os.path.join(BASE_DIR, 'local', 'static', 'bower_components'),
+    os.path.join(BASE_DIR, 'nearby', 'static'),
+    os.path.join(BASE_DIR, 'nearby', 'static', 'bower_components'),
 ]
 
 PIPELINE_CSS = {
@@ -144,12 +144,12 @@ PIPELINE_CSS_COMPRESSOR = None
 PIPELINE_JS_COMPRESSOR = None
 
 PIPELINE_COMPILERS = (
-    'local.pipeline.PyScssCompiler',
+    'nearby.pipeline.PyScssCompiler',
 )
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
-STATICFILES_STORAGE = 'local.pipeline.GzipManifestPipelineStorage'
+STATICFILES_STORAGE = 'nearby.pipeline.GzipManifestPipelineStorage'
 
 
 # Logging
@@ -173,7 +173,7 @@ LOGGING = {
         'level': 'ERROR'
     },
     'loggers': {
-        'local': {
+        'nearby': {
             'level': 'DEBUG' if DEBUG else 'INFO',
         },
         'django': {

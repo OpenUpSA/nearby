@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect
 from django.http import Http404
 
-from local.models import WardInfoFinder, IECClient
+from .models import WardInfoFinder, IECClient
 
 
 # re-use this guy so that it caches the auth token
