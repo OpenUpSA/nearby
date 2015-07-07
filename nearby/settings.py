@@ -83,6 +83,20 @@ USE_L10N = True
 
 USE_TZ = True
 
+if DEBUG:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        }
+    }
+else:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+            'LOCATION': '/var/tmp/django_cache',
+        }
+    }
+
 # Templates
 TEMPLATE_DEBUG = DEBUG
 TEMPLATE_CONTEXT_PROCESSORS = (
