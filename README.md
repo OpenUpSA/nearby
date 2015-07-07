@@ -1,8 +1,12 @@
-Ward Councillor
-===============
+Local
+=====
 
-Small Django application to help users find information on their local
-ward councillor based on their address, browser location or ID number.
+Local is Code for SA's set of Django applications for helping users find
+data local to them.
+
+Included apps:
+
+* http://local.code4sa.org/councillor/ - find your local ward councillor
 
 Production deployment
 ---------------------
