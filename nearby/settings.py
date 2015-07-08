@@ -86,7 +86,7 @@ USE_TZ = True
 if DEBUG:
     CACHES = {
         'default': {
-            'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+            'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
         }
     }
 else:
