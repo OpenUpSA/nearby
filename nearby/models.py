@@ -4,11 +4,15 @@ import arrow
 import requests
 import gspread
 from oauth2client.client import SignedJwtAssertionCredentials
+from memoize import memoize
 
 from django.conf import settings
 
 
 log = logging.getLogger(__name__)
+
+
+MEMOIZE_SECS = 60 * 60
 
 
 class IECClient(object):
@@ -20,6 +24,7 @@ class IECClient(object):
         self.token = None
         self.token_expires = None
 
+    @memoize(timeout=MEMOIZE_SECS)
     def get(self, path, _auth=True, **params):
         url = self.url + path
         return requests.get(url, params=params, headers=self.headers(auth=_auth))
@@ -29,6 +34,14 @@ class IECClient(object):
             return {}
         else:
             return {'Authorization': 'Bearer %s' % self.auth_token}
+
+    def ward_councillor(self, ward_id):
+        resp = self.get('/api/v1/LGEWardCouncilor?WardID=%s' % ward_id)
+        resp.raise_for_status()
+
+        if resp.status_code == 204 or not resp.text:
+            return None
+        return resp.json()
 
     @property
     def auth_token(self):
@@ -77,12 +90,7 @@ class WardInfoFinder(object):
         return self.ward_for_address('%s,%s' % (lat, lng))
 
     def councillor_for_ward(self, ward_id, with_contact_details=True):
-        resp = self.iec.get('/api/v1/LGEWardCouncilor?WardID=%s' % ward_id)
-        resp.raise_for_status()
-
-        if resp.status_code == 204 or not resp.text:
-            return None
-        data = resp.json()
+        data = self.iec.ward_councillor(ward_id)
 
         if with_contact_details:
             # merge in contact details
@@ -97,8 +105,9 @@ class WardInfoFinder(object):
             if str(ward['ward_id']) == ward_id:
                 return ward
 
+    @memoize(timeout=MEMOIZE_SECS)
     def gsheets_records(self):
-        # TODO: cache this
+        # get all records from the google sheet, as a list of dicts
         return self.worksheet.get_all_records()
 
 
