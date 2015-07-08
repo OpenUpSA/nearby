@@ -12,6 +12,8 @@ from django.conf import settings
 log = logging.getLogger(__name__)
 
 
+# How long should we cache google sheets and IEC data for?
+# Bear in mind that we cache an entire ward page for 12 hours
 MEMOIZE_SECS = 60 * 60
 
 
@@ -66,11 +68,9 @@ class IECClient(object):
 
 
 class WardInfoFinder(object):
-    def __init__(self, iec_api, gsheets, sheet_key):
+    def __init__(self, iec_api, sheet_key):
         self.iec = iec_api
-        log.info("Fetching Google Sheets %s" % sheet_key)
-        spreadsheet = gsheets.open_by_key(sheet_key)
-        self.worksheet = spreadsheet.sheet1
+        self.sheet_key = sheet_key
 
     def ward_for_address(self, address):
         resp = requests.get('http://wards.code4sa.org', params={
@@ -107,18 +107,30 @@ class WardInfoFinder(object):
 
     @memoize(timeout=MEMOIZE_SECS)
     def gsheets_records(self):
-        # get all records from the google sheet, as a list of dicts
-        return self.worksheet.get_all_records()
+        """ Get all records from the google sheet, as a list of dicts.
+        """
+        gsheets = get_gsheets_client()
+        log.info("Fetching Google Sheets %s" % self.sheet_key)
+        spreadsheet = gsheets.open_by_key(self.sheet_key)
+        worksheet = spreadsheet.sheet1
+        return worksheet.get_all_records()
 
 
-def get_gsheets_creds(scope):
-    return SignedJwtAssertionCredentials(
-        settings.GOOGLE_SHEETS_EMAIL,
-        settings.GOOGLE_SHEETS_PRIVATE_KEY,
-        scope)
+_gsheets_creds = None
+
+
+def get_gsheets_creds():
+    global _gsheets_creds
+    scope = ['https://spreadsheets.google.com/feeds']
+
+    if not _gsheets_creds:
+        _gsheets_creds = SignedJwtAssertionCredentials(
+            settings.GOOGLE_SHEETS_EMAIL,
+            settings.GOOGLE_SHEETS_PRIVATE_KEY,
+            scope)
+
+    return _gsheets_creds
 
 
 def get_gsheets_client():
-    creds = get_gsheets_creds(['https://spreadsheets.google.com/feeds'])
-    log.info("Authenticating with Google Sheets...")
-    return gspread.authorize(creds)
+    return gspread.authorize(get_gsheets_creds())
