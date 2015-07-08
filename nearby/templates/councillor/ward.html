@@ -14,8 +14,14 @@
           <div class="fb-share-button" data-layout="button_count" data-href="http://nearby.code4sa.org{% url 'councillor' %}"></div>
         </div>
 
-        <h3 class="ward">Ward {{ location.ward_id }}</h3>
+        <h3 class="ward">Ward {{ location.ward_number }} ({{ location.ward_id }})</h3>
         <h3 class="municipality">{{ location.municipality }}, {{ location.province }}</h3>
+
+        <ul class="list-unstyled">
+          <li>
+            <i class="fa fa-fw fa-flag"></i> {{ location.councillor.PartyDetail.Name }}
+          </li>
+        </ul>
       </section>
 
       <hr>

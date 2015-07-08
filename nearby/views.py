@@ -50,6 +50,7 @@ def ward_councillor(request, ward_id):
     }
 
     location['ward_id'] = councillor['Delimitation']['WardID']
+    location['ward_number'] = location['ward_id'] % 1000
     location['province'] = councillor['Delimitation']['Province']
     # JHB - City of Johannesburg [Johannesburg]
     muni = councillor['Delimitation']['Municipality'].split('-', 1)[1]
