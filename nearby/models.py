@@ -2,9 +2,19 @@ import logging
 
 import arrow
 import requests
+import gspread
+from oauth2client.client import SignedJwtAssertionCredentials
+from memoize import memoize
+
+from django.conf import settings
 
 
 log = logging.getLogger(__name__)
+
+
+# How long should we cache google sheets and IEC data for?
+# Bear in mind that we cache an entire ward page for 12 hours
+MEMOIZE_SECS = 60 * 60
 
 
 class IECClient(object):
@@ -16,6 +26,7 @@ class IECClient(object):
         self.token = None
         self.token_expires = None
 
+    @memoize(timeout=MEMOIZE_SECS)
     def get(self, path, _auth=True, **params):
         url = self.url + path
         return requests.get(url, params=params, headers=self.headers(auth=_auth))
@@ -25,6 +36,14 @@ class IECClient(object):
             return {}
         else:
             return {'Authorization': 'Bearer %s' % self.auth_token}
+
+    def ward_councillor(self, ward_id):
+        resp = self.get('/api/v1/LGEWardCouncilor?WardID=%s' % ward_id)
+        resp.raise_for_status()
+
+        if resp.status_code == 204 or not resp.text:
+            return None
+        return resp.json()
 
     @property
     def auth_token(self):
@@ -49,8 +68,9 @@ class IECClient(object):
 
 
 class WardInfoFinder(object):
-    def __init__(self, iec_api):
+    def __init__(self, iec_api, sheet_key):
         self.iec = iec_api
+        self.sheet_key = sheet_key
 
     def ward_for_address(self, address):
         resp = requests.get('http://wards.code4sa.org', params={
@@ -69,11 +89,48 @@ class WardInfoFinder(object):
     def ward_for_location(self, lat, lng):
         return self.ward_for_address('%s,%s' % (lat, lng))
 
-    def councillor_for_ward(self, ward):
-        resp = self.iec.get('/api/v1/LGEWardCouncilor?WardID=%s' % ward)
-        resp.raise_for_status()
+    def councillor_for_ward(self, ward_id, with_contact_details=True):
+        data = self.iec.ward_councillor(ward_id)
 
-        if resp.status_code == 204 or not resp.text:
-            return None
+        if with_contact_details:
+            # merge in contact details
+            data['custom_contact_details'] = self.councillor_contact_details(ward_id) or {}
 
-        return resp.json()
+        return data
+
+    def councillor_contact_details(self, ward_id):
+        """ Fetch councillor contact details for this ward.
+        """
+        for ward in self.gsheets_records():
+            if str(ward['ward_id']) == ward_id:
+                return ward
+
+    @memoize(timeout=MEMOIZE_SECS)
+    def gsheets_records(self):
+        """ Get all records from the google sheet, as a list of dicts.
+        """
+        gsheets = get_gsheets_client()
+        log.info("Fetching Google Sheets %s" % self.sheet_key)
+        spreadsheet = gsheets.open_by_key(self.sheet_key)
+        worksheet = spreadsheet.sheet1
+        return worksheet.get_all_records()
+
+
+_gsheets_creds = None
+
+
+def get_gsheets_creds():
+    global _gsheets_creds
+    scope = ['https://spreadsheets.google.com/feeds']
+
+    if not _gsheets_creds:
+        _gsheets_creds = SignedJwtAssertionCredentials(
+            settings.GOOGLE_SHEETS_EMAIL,
+            settings.GOOGLE_SHEETS_PRIVATE_KEY,
+            scope)
+
+    return _gsheets_creds
+
+
+def get_gsheets_client():
+    return gspread.authorize(get_gsheets_creds())

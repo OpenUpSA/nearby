@@ -45,6 +45,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'pipeline',
     'django_extensions',
+    'memoize',
 
     'nearby',
 )
@@ -96,6 +97,17 @@ else:
             'LOCATION': '/var/tmp/django_cache',
         }
     }
+
+# Google sheets
+GOOGLE_SHEETS_EMAIL = os.environ.get('GOOGLE_SHEETS_EMAIL')
+GOOGLE_SHEETS_PRIVATE_KEY = os.environ.get('GOOGLE_SHEETS_PRIVATE_KEY')
+GOOGLE_SHEETS_SHEET_KEY = "1rtez8t8MGtG7vTQe-wyCrIgsgejwddoshrPkYPECC7E"
+
+if DEBUG:
+    import ssl
+    _create_unverified_https_context = ssl._create_unverified_context
+    ssl._create_default_https_context = _create_unverified_https_context
+
 
 # Templates
 TEMPLATE_DEBUG = DEBUG

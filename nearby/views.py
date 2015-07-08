@@ -9,7 +9,9 @@ from .models import WardInfoFinder, IECClient
 
 
 # re-use this guy so that it caches the auth token
-finder = WardInfoFinder(IECClient(settings.IEC_API_USERNAME, settings.IEC_API_PASSWORD))
+iec_client = IECClient(settings.IEC_API_USERNAME, settings.IEC_API_PASSWORD)
+
+finder = WardInfoFinder(iec_client, settings.GOOGLE_SHEETS_SHEET_KEY)
 
 
 def normalise_url(url):
