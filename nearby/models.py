@@ -2,6 +2,10 @@ import logging
 
 import arrow
 import requests
+import gspread
+from oauth2client.client import SignedJwtAssertionCredentials
+
+from django.conf import settings
 
 
 log = logging.getLogger(__name__)
@@ -49,8 +53,11 @@ class IECClient(object):
 
 
 class WardInfoFinder(object):
-    def __init__(self, iec_api):
+    def __init__(self, iec_api, gsheets, sheet_key):
         self.iec = iec_api
+        log.info("Fetching Google Sheets %s" % sheet_key)
+        spreadsheet = gsheets.open_by_key(sheet_key)
+        self.worksheet = spreadsheet.sheet1
 
     def ward_for_address(self, address):
         resp = requests.get('http://wards.code4sa.org', params={
@@ -69,11 +76,40 @@ class WardInfoFinder(object):
     def ward_for_location(self, lat, lng):
         return self.ward_for_address('%s,%s' % (lat, lng))
 
-    def councillor_for_ward(self, ward):
-        resp = self.iec.get('/api/v1/LGEWardCouncilor?WardID=%s' % ward)
+    def councillor_for_ward(self, ward_id, with_contact_details=True):
+        resp = self.iec.get('/api/v1/LGEWardCouncilor?WardID=%s' % ward_id)
         resp.raise_for_status()
 
         if resp.status_code == 204 or not resp.text:
             return None
+        data = resp.json()
 
-        return resp.json()
+        if with_contact_details:
+            # merge in contact details
+            data['custom_contact_details'] = self.councillor_contact_details(ward_id) or {}
+
+        return data
+
+    def councillor_contact_details(self, ward_id):
+        """ Fetch councillor contact details for this ward.
+        """
+        for ward in self.gsheets_records():
+            if str(ward['ward_id']) == ward_id:
+                return ward
+
+    def gsheets_records(self):
+        # TODO: cache this
+        return self.worksheet.get_all_records()
+
+
+def get_gsheets_creds(scope):
+    return SignedJwtAssertionCredentials(
+        settings.GOOGLE_SHEETS_EMAIL,
+        settings.GOOGLE_SHEETS_PRIVATE_KEY,
+        scope)
+
+
+def get_gsheets_client():
+    creds = get_gsheets_creds(['https://spreadsheets.google.com/feeds'])
+    log.info("Authenticating with Google Sheets...")
+    return gspread.authorize(creds)

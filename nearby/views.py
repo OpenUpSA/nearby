@@ -5,11 +5,14 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect
 from django.http import Http404
 
-from .models import WardInfoFinder, IECClient
+from .models import WardInfoFinder, IECClient, get_gsheets_client
 
 
 # re-use this guy so that it caches the auth token
-finder = WardInfoFinder(IECClient(settings.IEC_API_USERNAME, settings.IEC_API_PASSWORD))
+iec_client = IECClient(settings.IEC_API_USERNAME, settings.IEC_API_PASSWORD)
+gsheets_client = get_gsheets_client()
+
+finder = WardInfoFinder(iec_client, gsheets_client, settings.GOOGLE_SHEETS_SHEET_KEY)
 
 
 def normalise_url(url):
