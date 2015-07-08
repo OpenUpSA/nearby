@@ -22,6 +22,12 @@
             <i class="fa fa-fw fa-phone"></i> {{ location.councillor.custom_contact_details.phone }}
           </li>
           <li>
+            <i class="fa fa-fw fa-envelope"></i>
+            {% if location.councillor.custom_contact_details.email %}
+            <a href="mailto:{{ location.councillor.custom_contact_details.email }}">{{ location.councillor.custom_contact_details.email }}</a>
+            {% endif %}
+          </li>
+          <li>
             <i class="fa fa-fw fa-flag"></i> {{ location.councillor.PartyDetail.Name }}
           </li>
         </ul>
