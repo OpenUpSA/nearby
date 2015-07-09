@@ -174,16 +174,11 @@ PIPELINE_JS = {
         'source_filenames': (
             'bower_components/jquery/dist/jquery.min.js',
             'bower_components/code4sa-styles/js/bootstrap.min.js',
+            'javascript/leaflet.js',
             'javascript/app.js',
         ),
         'output_filename': 'app.js',
     },
-
-    'head_js': {
-        'source_filenames': (
-            'javascript/leaflet.js',
-        ),
-    }
 }
 PIPELINE_CSS_COMPRESSOR = None
 PIPELINE_JS_COMPRESSOR = None

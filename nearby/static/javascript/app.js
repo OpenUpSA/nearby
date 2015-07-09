@@ -27,19 +27,20 @@ $(function() {
   });
   map.attributionControl.setPrefix('');
   var osm = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: 'Map © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      maxZoom: 18
+    attribution: 'Map © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    maxZoom: 18
   });
   map.addLayer(osm);
 
   var wardId = $('#map').attr('data');
+  var url = "http://mapit.code4sa.org/code/MDB/" + wardId + ".geojson"
 
-  $.getJSON("http://mapit.code4sa.org/mapit/area/31.geojson").
-      then(function(data) {
-          var area = new L.GeoJSON(data);
-          map.addLayer(area);
-          map.fitBounds(area.getBounds());
-      });
+  $.getJSON(url).
+    then(function(data) {
+      var area = new L.GeoJSON(data);
+      map.addLayer(area);
+      map.fitBounds(area.getBounds());
+    });
 });
 
 $(function() {
