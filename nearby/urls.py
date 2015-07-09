@@ -10,4 +10,5 @@ urlpatterns = patterns('',
     url(r'^councillor/ward-(?P<ward_id>[0-9]+)$',
         # cache for 12 hours
         cache_page(60 * 60 * 12)(nearby.views.ward_councillor), name='ward_councillor'),
+    url(r'^councillor/suggestion/', 'nearby.views.councillor_suggestion', name='councillor_suggestion'),
 )

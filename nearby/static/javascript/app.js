@@ -22,3 +22,14 @@ $(function() {
     }
   });
 });
+
+$(function() {
+  $('#suggest-modal form').on('submit', function(e) {
+    e.preventDefault();
+
+    var $form = $(e.target);
+    $.post($form.attr('action'), $form.serialize());
+    $('#suggest-modal').modal('hide');
+    alert("Thanks for your suggestion, we'll take a look and update our data.");
+  });
+});

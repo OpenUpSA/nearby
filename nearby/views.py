@@ -4,6 +4,7 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect
 from django.http import Http404
+from django import forms
 
 from .models import WardInfoFinder, IECClient
 
@@ -63,5 +64,34 @@ def ward_councillor(request, ward_id):
     location['councillor']['PartyDetail']['ContactDetails']['WebsiteUrl'] = \
         normalise_url(location['councillor']['PartyDetail']['ContactDetails']['WebsiteUrl'])
 
+    form = SuggestionForm(data={'ward_id': ward_id})
+
     return render(request, 'councillor/ward.html', dict(
-                  location=location))
+                  location=location,
+                  suggest_form=form))
+
+
+class SuggestionForm(forms.Form):
+    ward_id = forms.CharField(widget=forms.HiddenInput())
+    councillor_name = forms.CharField(label='Councillor name')
+    councillor_email = forms.EmailField(label='Councillor email address')
+    councillor_phone = forms.CharField(label='Councillor phone number')
+    email = forms.CharField(label="Your email address")
+
+    # honeypot, if this is filled in it's probably spam
+    website = forms.CharField(label='Website')
+
+
+def councillor_suggestion(request):
+    """ Process a suggestion for new data.
+    """
+    if request.method == 'POST':
+        form = SuggestionForm(request.POST)
+        if form.is_valid():
+            # TODO: DO STUFF
+            pass
+
+        if form.cleaned_data['ward_id']:
+            return redirect(reverse('ward_councillor', kwargs={'ward_id': form.cleaned_data['ward_id']}))
+
+    return redirect('/')
