@@ -9,6 +9,8 @@ from django.template.loader import render_to_string
 from django.shortcuts import render, redirect
 from django.http import Http404
 from django import forms
+from django.views.decorators.clickjacking import xframe_options_exempt
+
 
 from .models import WardInfoFinder, IECClient, get_gsheets_client
 
@@ -27,6 +29,7 @@ def normalise_url(url):
     return re.sub(r'https?://', '', url.lower())
 
 
+@xframe_options_exempt
 def councillor(request):
     bad_address = False
     ward = None
@@ -48,6 +51,7 @@ def councillor(request):
                   bad_address=bad_address))
 
 
+@xframe_options_exempt
 def ward_councillor(request, ward_id):
     councillor = finder.councillor_for_ward(ward_id)
     if not councillor:
@@ -114,7 +118,7 @@ class SuggestionForm(forms.Form):
                     html_message=render_to_string('councillor/suggestion_email.html', self.cleaned_data))
         log.info("Sent")
 
-
+@xframe_options_exempt
 def councillor_suggestion(request):
     """ Process a suggestion for new data.
     """
