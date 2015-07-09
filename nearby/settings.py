@@ -75,14 +75,25 @@ DATABASES = {}
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
+
+
+# Email
+ADMINS = [('Code4SA', 'webapps@code4sa.org')]
+DEFAULT_FROM_EMAIL = ADMINS[0][1]
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
+
+EMAIL_SUBJECT_PREFIX = '[Nearby] '
+EMAIL_HOST = 'smtp.mandrillapp.com'
+EMAIL_HOST_USER = 'webapps@code4sa.org'
+EMAIL_HOST_PASSWORD = os.environ.get('DJANGO_EMAIL_HOST_PASSWORD')
+EMAIL_PORT = 587
+
+
+# Caches
 
 if DEBUG:
     CACHES = {

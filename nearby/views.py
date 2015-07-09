@@ -4,6 +4,8 @@ from datetime import datetime
 
 from django.conf import settings
 from django.core.urlresolvers import reverse
+from django.core.mail import mail_admins
+from django.template.loader import render_to_string
 from django.shortcuts import render, redirect
 from django.http import Http404
 from django import forms
@@ -99,13 +101,18 @@ class SuggestionForm(forms.Form):
             datetime.now().isoformat(),
             self.cleaned_data['ward_id'],
             self.cleaned_data['councillor_name'],
-            self.cleaned_data['councillor_email'],
             self.cleaned_data['councillor_phone'],
+            self.cleaned_data['councillor_email'],
             self.cleaned_data['email'],
             request.META.get('HTTP_USER_AGENT', ''),
             request.META.get('HTTP_X_FORWARDED_FOR', ''),
         ])
         log.info("Saved")
+
+        log.info("Sending email")
+        mail_admins('New Ward Councillor Suggestion', '',
+                    html_message=render_to_string('councillor/suggestion_email.html', self.cleaned_data))
+        log.info("Sent")
 
 
 def councillor_suggestion(request):
