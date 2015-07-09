@@ -19,12 +19,19 @@
 
         <ul class="list-unstyled">
           <li>
-            <i class="fa fa-fw fa-phone"></i> {{ location.councillor.custom_contact_details.phone }}
+            <i class="fa fa-fw fa-phone"></i> 
+            {% if location.councillor.custom_contact_details.phone %}
+            {{ location.councillor.custom_contact_details.phone }}
+            {% else %}
+            <i>why not <a href="#suggest-modal" data-toggle="modal">suggest one</a>?</i>
+            {% endif %}
           </li>
           <li>
             <i class="fa fa-fw fa-envelope"></i>
             {% if location.councillor.custom_contact_details.email %}
             <a href="mailto:{{ location.councillor.custom_contact_details.email }}">{{ location.councillor.custom_contact_details.email }}</a>
+            {% else %}
+            <i>why not <a href="#suggest-modal" data-toggle="modal">suggest one</a>?</i>
             {% endif %}
           </li>
           <li>
@@ -72,7 +79,16 @@
   </div>
 
   <hr>
+
+  <button class="btn btn-default full-xs" type="button" data-target="#suggest-modal" data-toggle="modal">
+    Suggest a correction
+  </button>
+
+  <hr>
+
   {% include 'councillor/_form.html' %}
+
+  {% include 'councillor/_suggest_modal.html' %}
 </div>
 
 {% endblock %}

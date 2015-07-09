@@ -161,6 +161,7 @@ PIPELINE_JS = {
     'js': {
         'source_filenames': (
             'bower_components/jquery/dist/jquery.min.js',
+            'bower_components/code4sa-styles/js/bootstrap.min.js',
             'javascript/app.js',
         ),
         'output_filename': 'app.js',
