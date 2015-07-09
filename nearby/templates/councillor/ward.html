@@ -55,28 +55,28 @@
           </li>
         </ul>
       </section>
-
-      <hr>
-
-      <section class="party">
-        <h3 class="party">{{ location.councillor.PartyDetail.Name }}</h3>
-
-        <ul class="list-unstyled">
-          <li>
-            <i class="fa fa-fw fa-home"></i>
-            <a href="http://{{ location.councillor.PartyDetail.ContactDetails.WebsiteUrl }}" target="_blank">{{ location.councillor.PartyDetail.ContactDetails.WebsiteUrl }}</a>
-          </li>
-          <li>
-            <i class="fa fa-fw fa-phone"></i> {{ location.councillor.PartyDetail.ContactDetails.Tel }}
-          </li>
-        </ul>
-      </section>
     </div>
 
     <div class="col-sm-4">
       <div id="map" data="{{ location.ward_id }}" style="height:250px;"></div>
     </div>
   </div>
+
+  <hr>
+
+  <section class="party">
+    <h3 class="party">{{ location.councillor.PartyDetail.Name }}</h3>
+
+    <ul class="list-unstyled">
+      <li>
+        <i class="fa fa-fw fa-home"></i>
+        <a href="http://{{ location.councillor.PartyDetail.ContactDetails.WebsiteUrl }}" target="_blank">{{ location.councillor.PartyDetail.ContactDetails.WebsiteUrl }}</a>
+      </li>
+      <li>
+        <i class="fa fa-fw fa-phone"></i> {{ location.councillor.PartyDetail.ContactDetails.Tel }}
+      </li>
+    </ul>
+  </section>
 
   <hr>
 

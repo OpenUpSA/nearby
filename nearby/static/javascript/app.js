@@ -23,7 +23,8 @@ $(function() {
   });
 
   var map = new L.Map("map", {
-    scrollWheelZoom: false
+    scrollWheelZoom: false,
+    zoomControl: false,
   });
   map.attributionControl.setPrefix('');
   var osm = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
