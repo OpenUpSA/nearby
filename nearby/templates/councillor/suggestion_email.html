@@ -9,11 +9,13 @@
 <li>If they make sense, copy the values into the <b>ward_id</b>, <b>councillor name</b>, <b>councillor email</b> and <b>councillor phone</b>
 columns into the <b>LIVE DATA</b> spreadsheet</li>
 <li>Be sure to replace the row for the ward if it already exists</li>
+<li><b>Note:</b> your changes will take up to an hour to reflect.
 </ol>
 
 <p>The suggested details are:</p>
 
 <ul>
+<li><b>Webpage:</b> <a href="http://nearby.code4sa.org{% url 'ward_councillor' ward_id=ward_id %}">http://nearby.code4sa.org{% url 'ward_councillor' ward_id=ward_id %}</a></li>
 <li><b>Ward id:</b> {{ ward_id }}</li>
 <li><b>Councillor name:</b> {{ councillor_name }}</li>
 <li><b>Councillor phone:</b> {{ councillor_phone }}</li>
