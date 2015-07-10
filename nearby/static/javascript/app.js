@@ -34,7 +34,7 @@ $(function() {
   map.addLayer(osm);
 
   var wardId = $('#map').attr('data');
-  var url = "http://mapit.code4sa.org/code/MDB/" + wardId + ".geojson"
+  var url = "http://mapit.code4sa.org/area/MDB:" + wardId + ".geojson?type=WD";
 
   $.getJSON(url).
     then(function(data) {
