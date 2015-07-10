@@ -21,6 +21,27 @@ $(function() {
       noLocation();
     }
   });
+
+  var map = new L.Map("map", {
+    scrollWheelZoom: false,
+    zoomControl: false,
+  });
+  map.attributionControl.setPrefix('');
+  var osm = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: 'Map © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    maxZoom: 18
+  });
+  map.addLayer(osm);
+
+  var wardId = $('#map').attr('data');
+  var url = "http://mapit.code4sa.org/area/MDB:" + wardId + ".geojson?type=WD";
+
+  $.getJSON(url).
+    then(function(data) {
+      var area = new L.GeoJSON(data);
+      map.addLayer(area);
+      map.fitBounds(area.getBounds());
+    });
 });
 
 $(function() {

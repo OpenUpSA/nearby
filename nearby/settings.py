@@ -114,10 +114,10 @@ GOOGLE_SHEETS_EMAIL = os.environ.get('GOOGLE_SHEETS_EMAIL')
 GOOGLE_SHEETS_PRIVATE_KEY = os.environ.get('GOOGLE_SHEETS_PRIVATE_KEY')
 GOOGLE_SHEETS_SHEET_KEY = "1rtez8t8MGtG7vTQe-wyCrIgsgejwddoshrPkYPECC7E"
 
-if DEBUG:
-    import ssl
-    _create_unverified_https_context = ssl._create_unverified_context
-    ssl._create_default_https_context = _create_unverified_https_context
+# if DEBUG:
+#     import ssl
+#     _create_unverified_https_context = ssl._create_unverified_context
+#     ssl._create_default_https_context = _create_unverified_https_context
 
 
 # Templates
@@ -163,6 +163,7 @@ PIPELINE_CSS = {
         'source_filenames': (
             'bower_components/code4sa-styles/css/code4sa-custom-bootstrap.css',
             'bower_components/fontawesome/css/font-awesome.css',
+            'stylesheets/leaflet.css',
             'stylesheets/app.scss',
         ),
         'output_filename': 'app.css',
@@ -173,6 +174,7 @@ PIPELINE_JS = {
         'source_filenames': (
             'bower_components/jquery/dist/jquery.min.js',
             'bower_components/code4sa-styles/js/bootstrap.min.js',
+            'javascript/leaflet.js',
             'javascript/app.js',
         ),
         'output_filename': 'app.js',

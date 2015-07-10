@@ -27,6 +27,7 @@ def normalise_url(url):
 
     return re.sub(r'https?://', '', url.lower())
 
+
 @xframe_options_exempt
 def councillor(request):
     bad_address = False
@@ -47,6 +48,7 @@ def councillor(request):
 
     return render(request, 'councillor/index.html', dict(
                   bad_address=bad_address))
+
 
 @xframe_options_exempt
 def ward_councillor(request, ward_id):
@@ -114,6 +116,7 @@ class SuggestionForm(forms.Form):
         mail_admins('New Ward Councillor Suggestion', '',
                     html_message=render_to_string('councillor/suggestion_email.html', self.cleaned_data))
         log.info("Sent")
+
 
 @xframe_options_exempt
 def councillor_suggestion(request):
