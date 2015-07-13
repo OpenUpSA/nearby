@@ -4,12 +4,13 @@
 {% block main-content %}
 
 <div class="container-fluid ward-councillor-info">
+  <div class="councillor">
+    <h1>{{ location.councillor.Name }}<br><span class="small">Ward  Councillor</span></h1>
+  </div>
 
   <div class="row">
     <div class="col-sm-8">
       <section class="councillor">
-        <h1>{{ location.councillor.Name }}</h1>
-
         <div class="pull-right">
           <div class="fb-share-button" data-layout="button_count" data-href="http://nearby.code4sa.org{% url 'councillor' %}"></div>
         </div>
@@ -52,6 +53,13 @@
             <i class="fa fa-fw fa-phone"></i> {{ location.councillor.Municipality.ContactDetails.Tel }}
           </li>
         </ul>
+
+      </section>
+
+      <section>
+        <button class="btn btn-default full-xs" type="button" data-target="#suggest-modal" data-toggle="modal">
+          Suggest a correction
+        </button>
       </section>
     </div>
 
@@ -75,12 +83,6 @@
       </li>
     </ul>
   </section>
-
-  <hr>
-
-  <button class="btn btn-default full-xs" type="button" data-target="#suggest-modal" data-toggle="modal">
-    Suggest a correction
-  </button>
 
   <hr>
 
