@@ -116,6 +116,9 @@ else:
 CACHES['iec'] = {
     'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
     'LOCATION': 'iec_cache',
+    'OPTIONS': {
+        'MAX_ENTRIES': 5000,  # about 4000 wards in SA
+    },
 }
 
 # Google sheets
