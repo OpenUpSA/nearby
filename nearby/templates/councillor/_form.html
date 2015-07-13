@@ -1,3 +1,5 @@
+{% load static %}
+
 <form class="find-councillor slab-light-gray" action="{% url 'councillor' %}" method="GET">
   <h3>Find your ward councillor</h3>
 
@@ -15,10 +17,15 @@
       </div>
     </div>
 
-    <div class="col-sm-6 locate-button">
+    <div class="col-sm-4 locate-button">
       <button type="button" class="btn btn-primary locate full-xs">
         <i class="fa fa-map-marker"></i> <span>Use your location</span>
       </button>
     </div>
+
+    <div class="col-sm-2">
+      <a id="form-logo" href="http://code4sa.org"><img src="{% static 'bower_components/code4sa-styles/images/code4sa_logo_black.png' %}"></a>
+    </div>
+
   </div>
 </form>
