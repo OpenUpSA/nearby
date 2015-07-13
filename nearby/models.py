@@ -7,6 +7,7 @@ from oauth2client.client import SignedJwtAssertionCredentials
 from memoize import memoize
 
 from django.conf import settings
+from django.core.cache import get_cache
 
 
 log = logging.getLogger(__name__)
@@ -71,6 +72,10 @@ class WardInfoFinder(object):
     def __init__(self, iec_api, sheet_key):
         self.iec = iec_api
         self.sheet_key = sheet_key
+        # We use this cache to store the results from the IEC
+        # indefinitely, and use them as a fallback when the IEC's
+        # site is down.
+        self.cache = get_cache('iec')
 
     def ward_for_address(self, address):
         resp = requests.get('http://wards.code4sa.org', params={
@@ -90,7 +95,18 @@ class WardInfoFinder(object):
         return self.ward_for_address('%s,%s' % (lat, lng))
 
     def councillor_for_ward(self, ward_id, with_contact_details=True):
-        data = self.iec.ward_councillor(ward_id)
+        cache_key = 'councillor-ward-%s' % ward_id
+
+        try:
+            data = self.iec.ward_councillor(ward_id)
+            self.cache.set(cache_key, data, None)
+        except requests.HTTPError as e:
+            # try the cache
+            log.warn("Error from IEC, trying our local cache: %s" % e.message, exc_info=e)
+            data = self.cache.get(cache_key)
+            if data is None:
+                # no luck :(
+                raise e
 
         if with_contact_details:
             # merge in contact details
