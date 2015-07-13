@@ -14,6 +14,9 @@ Data Sources
 This app loads data from the IEC's API (elections.org.za) and supplements
 it with data from the Google Sheet at https://docs.google.com/spreadsheets/d/1rtez8t8MGtG7vTQe-wyCrIgsgejwddoshrPkYPECC7E/edit#gid=0
 
+The data from the IEC is cached in a local database cache and is used only
+if the IEC server is down.
+
 Local development
 -----------------
 
@@ -33,9 +36,10 @@ export GOOGLE_SHEETS_EMAIL=the-email
 export GOOGLE_SHEETS_PRIVATE_KEY=`cat google-sheets-key.txt`
 ```
 
-Then run the server:
+Then setup the database and run the server:
 
 ```
+python manage.py createcachetable
 python manage.py runserver
 ```
 

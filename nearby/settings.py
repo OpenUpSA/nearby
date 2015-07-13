@@ -69,7 +69,12 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
-DATABASES = {}
+import dj_database_url
+db_config = dj_database_url.config(default='postgresql://nearby:nearby@localhost:5432/nearby')
+db_config['ATOMIC_REQUESTS'] = True
+DATABASES = {
+    'default': db_config,
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
@@ -94,20 +99,24 @@ EMAIL_PORT = 587
 
 
 # Caches
-
 if DEBUG:
     CACHES = {
         'default': {
             'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
-        }
+        },
     }
 else:
     CACHES = {
         'default': {
             'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
             'LOCATION': '/var/tmp/django_cache',
-        }
+        },
     }
+# IEC api cache for when their API is down
+CACHES['iec'] = {
+    'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+    'LOCATION': 'iec_cache',
+}
 
 # Google sheets
 GOOGLE_SHEETS_EMAIL = os.environ.get('GOOGLE_SHEETS_EMAIL')
