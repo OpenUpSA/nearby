@@ -1,4 +1,10 @@
 $(function() {
+  // responsive iframe
+  var ri = responsiveIframe();
+  ri.allowResponsiveEmbedding();
+});
+
+$(function() {
   $('.btn.locate').on('click', function(e) {
     // find user's location
     e.preventDefault();
