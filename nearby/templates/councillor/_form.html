@@ -17,15 +17,47 @@
       </div>
     </div>
 
-    <div class="col-sm-4 locate-button">
+    <div class="col-sm-3 locate-button">
       <button type="button" class="btn btn-primary locate full-xs">
         <i class="fa fa-map-marker"></i> <span>Use your location</span>
       </button>
     </div>
 
-    <div class="col-sm-2">
+    <div class="col-sm-3">
       <a id="form-logo" href="http://code4sa.org"><img src="{% static 'bower_components/code4sa-styles/images/code4sa_logo_black.png' %}"></a>
     </div>
 
   </div>
 </form>
+
+<p class="text-right">
+  <a href="#embed-modal" data-toggle="modal">Add this to your website</a>
+  |
+  Data from the <a href="https://www.elections.org.za/content/For-voters/who-is-my-councillor-/">IEC</a> and others.
+</p>
+
+<div class="modal fade" id="embed-modal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Add this to your website</h4>
+      </div>
+      <div class="modal-body">
+        <p>It's easy to add this tool to your website, just cut and paste the code below.</p>
+        <p><strong>Important: don't change the ID of the <code>councillor-iframe</code> tag.</strong></p>
+        <pre>
+&lt;div id="councillor-iframe"&gt;&lt;/div&gt;
+&lt;script type="text/javascript" src="http://nearby.code4sa.org/static/javascript/pym.min.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+  new pym.Parent('councillor-iframe', 'http://nearby.code4sa.org/councillor/');
+&lt;/script&gt;
+        </pre>
+        <p>Contact <a href="mailto:info@code4sa.org">info@code4sa.org</a> with any questions.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -187,7 +187,7 @@ PIPELINE_JS = {
             'bower_components/jquery/dist/jquery.min.js',
             'bower_components/code4sa-styles/js/bootstrap.min.js',
             'javascript/leaflet.js',
-            'javascript/jquery.responsiveiframe.js',
+            'javascript/pym.min.js',
             'javascript/app.js',
         ),
         'output_filename': 'app.js',
