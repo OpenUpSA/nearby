@@ -1,7 +1,12 @@
 $(function() {
   // responsive iframe
   // see: http://blog.apps.npr.org/pym.js/
-  new pym.Child({id: 'councillor-iframe'});
+  // Use parent URL if embeddedas iframe
+  var child = new pym.Child({id: 'councillor-iframe'});
+  if (child.parentUrl != "") {
+      var page_url = child.parentUrl + COUNCILLOR_URL;
+      $('.fb-share-button').data('href', page_url);
+  }
 });
 
 $(function() {
@@ -62,13 +67,5 @@ $(function() {
     $.post($form.attr('action'), $form.serialize());
     $('#suggest-modal').modal('hide');
     alert("Thanks for your suggestion, we'll take a look and update our data.");
-  });
-});
-
-$(function() {
-  // Update fb share data-href to the current page URL
-  $(document).ready(function(){
-    var page_url = window.location.host + COUNCILLOR_URL;
-    $('.fb-share-button').data('href', page_url);
   });
 });
