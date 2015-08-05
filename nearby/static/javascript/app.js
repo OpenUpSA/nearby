@@ -3,7 +3,7 @@ $(function() {
   // see: http://blog.apps.npr.org/pym.js/
   // Use parent URL if embeddedas iframe
   var child = new pym.Child({id: 'councillor-iframe'});
-  if (child.parentUrl != "") {
+  if (child.parentUrl !== "") {
       var page_url = child.parentUrl + COUNCILLOR_URL;
       $('.fb-share-button').data('href', page_url);
   }
