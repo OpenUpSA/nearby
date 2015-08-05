@@ -64,3 +64,11 @@ $(function() {
     alert("Thanks for your suggestion, we'll take a look and update our data.");
   });
 });
+
+$(function() {
+  // Update fb share data-href to the current page URL
+  $(document).ready(function(){
+    var page_url = window.location.host + COUNCILLOR_URL;
+    $('.fb-share-button').data('href', page_url);
+  });
+});
