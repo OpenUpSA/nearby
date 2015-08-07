@@ -192,6 +192,13 @@ PIPELINE_JS = {
         ),
         'output_filename': 'app.js',
     },
+    'nearby-embed-js': {
+        'source_filenames': (
+            'javascript/pym.min.js',
+            'javascript/councillor-embed.js',
+        ),
+        'output_filename': 'councillor-embed.js',
+    },
 }
 PIPELINE_CSS_COMPRESSOR = None
 PIPELINE_JS_COMPRESSOR = None
