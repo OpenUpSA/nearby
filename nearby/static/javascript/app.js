@@ -4,8 +4,7 @@ $(function() {
   // Use parent URL if embeddedas iframe
   var child = new pym.Child({id: 'councillor-iframe'});
   if (child.parentUrl !== "") {
-      var page_url = child.parentUrl + COUNCILLOR_URL;
-      $('.fb-share-button').data('href', page_url);
+      $('.fb-share-button').data('href', child.parentUrl);
   }
 });
 
