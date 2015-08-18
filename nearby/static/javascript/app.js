@@ -23,7 +23,10 @@ $(function() {
 });
 
 $(function() {
-  $('.btn.locate').on('click', function(e) {
+  var $locate = $('.btn.locate');
+  $locate.toggleClass('hidden', !navigator.geolocation);
+
+  $locate.on('click', function(e) {
     // find user's location
     e.preventDefault();
 
