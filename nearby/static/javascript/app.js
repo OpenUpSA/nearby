@@ -1,14 +1,9 @@
 $(function() {
   // responsive iframe
   // see: http://blog.apps.npr.org/pym.js/
-  // Use parent URL as fb share URL
-
   var child = new pym.Child({id: 'councillor-iframe'});
 
-  function changeFacebookUrl(url) {
-    $('.fb-share-button').attr('data-href', url);
-  }
-
+  // Use parent URL as fb share URL
   function addFacebookShare(d, s, id) {
       var js, fjs = d.getElementsByTagName(s)[0];
       if (d.getElementById(id)) return;
@@ -17,13 +12,13 @@ $(function() {
       fjs.parentNode.insertBefore(js, fjs);
   }
 
-  function gotParentUrl(url) {
-    changeFacebookUrl(url);
+  function setShareUrl(url) {
+    $('.fb-share-button').attr('data-href', url);
     addFacebookShare(document, 'script', 'facebook-jssdk');
   }
 
-  child.onMessage('parentUrl', gotParentUrl);
-  child.sendMessage('getParentUrl', '1');
+  child.onMessage('setShareUrl', setShareUrl);
+  child.sendMessage('getShareUrl', '1');
 
 });
 
