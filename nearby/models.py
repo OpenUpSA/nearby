@@ -99,6 +99,8 @@ class WardInfoFinder(object):
 
         try:
             data = self.iec.ward_councillor(ward_id)
+            if not data:
+                return None
             self.cache.set(cache_key, data, None)
         except requests.HTTPError as e:
             # try the cache

@@ -1,9 +1,10 @@
 import re
+import json
 
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.views.decorators.clickjacking import xframe_options_exempt
 
 from .models import WardInfoFinder, IECClient
@@ -46,7 +47,7 @@ def councillor(request):
 
 
 @xframe_options_exempt
-def ward_councillor(request, ward_id):
+def ward_councillor(request, ward_id, format='html'):
     councillor = finder.councillor_for_ward(ward_id)
     if not councillor:
         raise Http404()
@@ -66,6 +67,9 @@ def ward_councillor(request, ward_id):
         normalise_url(location['councillor']['Municipality']['ContactDetails']['WebsiteUrl'])
     location['councillor']['PartyDetail']['ContactDetails']['WebsiteUrl'] = \
         normalise_url(location['councillor']['PartyDetail']['ContactDetails']['WebsiteUrl'])
+
+    if format == 'json':
+        return HttpResponse(json.dumps(location), content_type = "application/json")
 
     form = SuggestionForm(data={'ward_id': ward_id})
 
