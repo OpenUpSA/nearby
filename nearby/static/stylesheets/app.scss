@@ -39,17 +39,24 @@ body {
   display: none;
 }
 
-#form-logo {
-  display: block;
+.logos {
   text-align: center;
-  border: 0px !important;
 
-  @media (max-width: 767px) {
-    margin-top: 40px;
+  a.logo {
+    border: 0px !important;
   }
 
   img {
-    height: 40px;
+    width: 100px;
+    height: auto;
+  }
+
+  @media (max-width: 767px) {
+    margin-top: 40px;
+
+    img {
+      width: 70px;
+    }
   }
 }
 
