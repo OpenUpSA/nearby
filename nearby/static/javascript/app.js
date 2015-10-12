@@ -51,6 +51,12 @@ $(function() {
 });
 
 $(function() {
+  $('form.find-councillor').on('submit', function(e) {
+    $('form.find-councillor [type=submit]').text('Searching...').prop('disabled', true);
+  });
+});
+
+$(function() {
   if ($("#map").length > 0) {
     var map = new L.Map("map", {
       scrollWheelZoom: false,
@@ -73,6 +79,57 @@ $(function() {
         map.fitBounds(area.getBounds());
       });
   }
+});
+
+$(function() {
+  // typeahead
+  var mapit = new Bloodhound({
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    datumTokenizer: Bloodhound.tokenizers.whitespace,
+    remote: {
+      url: 'http://localhost:8888/address?partial=1&generation=1&type=WD&address=QUERY',
+      wildcard: 'QUERY',
+      transform: function(response) {
+        var results = [];
+
+        for (var i = 0; i < response.addresses.length; i++) {
+          var address = response.addresses[i];
+
+          for (var j = 0; j < address.areas.length; j++) {
+            var area = response[address.areas[j]];
+            results.push({
+              'address': address.formatted_address,
+              'ward_id': area.codes.MDB,
+              'name': 'Ward ' + area.name,
+            });
+          }
+        }
+
+        return results;
+      },
+    }
+  });
+
+  var $q = $('form.find-councillor input[name=address]');
+  $q.typeahead(
+    {
+      minLength: 5,
+      highlight: false,
+    },
+    {
+      name: 'mapit',
+      source: mapit,
+      display: 'address',
+      templates: {
+        suggestion: Handlebars.compile(
+          '<div class="name">{{name}}<span class="address">{{address}}</span></div>'
+        )
+      }
+    }
+  ).on('typeahead:select', function(e, item) {
+    $('form.find-councillor [type=submit]').text('Searching...').prop('disabled', true);
+    window.location = '/councillor/ward-' + item.ward_id;
+  });
 });
 
 $(function() {
