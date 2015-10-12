@@ -3,6 +3,10 @@
 <form class="find-councillor slab-light-gray" action="{% url 'councillor' %}" method="GET">
   <h3>Find your ward councillor</h3>
 
+  {% if bad_address %}
+  <div class="alert alert-danger">Sorry, we couldn't find your ward.</div>
+  {% endif %}
+
   <label for="address" class="form-label">What is your address?</label>
 
   <div class="row">

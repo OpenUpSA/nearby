@@ -4,10 +4,6 @@
 {% block main-content %}
 
 <div class="container-fluid ward-councillor-search">
-  {% if bad_address %}
-  <div class="alert alert-danger">Sorry, we couldn't find your ward.</div>
-  {% endif %}
-
   {% include 'councillor/_form.html' %}
 </div>
 
