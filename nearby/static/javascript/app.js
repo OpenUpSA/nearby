@@ -87,7 +87,7 @@ $(function() {
     queryTokenizer: Bloodhound.tokenizers.whitespace,
     datumTokenizer: Bloodhound.tokenizers.whitespace,
     remote: {
-      url: 'http://localhost:8888/address?partial=1&generation=1&type=WD&address=QUERY',
+      url: 'http://mapit.code4sa.org/address?partial=1&generation=1&type=WD&address=QUERY',
       wildcard: 'QUERY',
       transform: function(response) {
         var results = [];
