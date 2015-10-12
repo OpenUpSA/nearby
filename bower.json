@@ -22,6 +22,8 @@
   "dependencies": {
     "fontawesome": "~4.3.0",
     "jquery": "~2.1.3",
-    "code4sa-styles": "~0.9.4"
+    "code4sa-styles": "~0.9.4",
+    "typeahead.js": "~0.11.1",
+    "handlebars": "~4.0.3"
   }
 }

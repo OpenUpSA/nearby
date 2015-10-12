@@ -186,6 +186,9 @@ PIPELINE_JS = {
         'source_filenames': (
             'bower_components/jquery/dist/jquery.min.js',
             'bower_components/code4sa-styles/js/bootstrap.min.js',
+            'bower_components/code4sa-styles/js/bootstrap.min.js',
+            'bower_components/typeahead.js/dist/typeahead.bundle.min.js',
+            'bower_components/handlebars/handlebars.min.js',
             'javascript/leaflet.js',
             'javascript/pym.min.js',
             'javascript/app.js',
