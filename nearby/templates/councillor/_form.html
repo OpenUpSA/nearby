@@ -1,6 +1,6 @@
 {% load static %}
 
-<form class="find-councillor slab-light-gray" action="{% url 'councillor' %}" method="GET">
+<form class="find-councillor slab-light-gray" action="{% url 'councillor' %}" method="GET" autocomplete="off">
   <h3>Find your ward councillor</h3>
 
   {% if bad_address %}

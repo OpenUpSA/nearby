@@ -89,6 +89,7 @@ $(function() {
     remote: {
       url: 'http://mapit.code4sa.org/address?partial=1&generation=1&type=WD&address=QUERY',
       wildcard: 'QUERY',
+      rateLimitWait: 600,
       transform: function(response) {
         var results = [];
 
