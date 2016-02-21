@@ -63,14 +63,14 @@ $(function() {
       zoomControl: false,
     });
     map.attributionControl.setPrefix('');
-    var osm = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    var osm = new L.TileLayer('//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: 'Map © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       maxZoom: 18
     });
     map.addLayer(osm);
 
     var wardId = $('#map').attr('data');
-    var url = "http://mapit.code4sa.org/area/MDB:" + wardId + ".geojson?type=WD&generation=2";
+    var url = "//mapit.code4sa.org/area/MDB:" + wardId + ".geojson?type=WD&generation=2";
 
     $.getJSON(url).
       then(function(data) {
@@ -87,7 +87,7 @@ $(function() {
     queryTokenizer: Bloodhound.tokenizers.whitespace,
     datumTokenizer: Bloodhound.tokenizers.whitespace,
     remote: {
-      url: 'http://mapit.code4sa.org/address?partial=1&generation=2&type=WD&address=QUERY',
+      url: '//mapit.code4sa.org/address?partial=1&generation=2&type=WD&address=QUERY',
       wildcard: 'QUERY',
       rateLimitWait: 600,
       transform: function(response) {
