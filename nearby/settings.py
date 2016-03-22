@@ -92,8 +92,8 @@ DEFAULT_FROM_EMAIL = ADMINS[0][1]
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
 
 EMAIL_SUBJECT_PREFIX = '[Nearby] '
-EMAIL_HOST = 'smtp.mandrillapp.com'
-EMAIL_HOST_USER = 'webapps@code4sa.org'
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'code4sa-general'
 EMAIL_HOST_PASSWORD = os.environ.get('DJANGO_EMAIL_HOST_PASSWORD')
 EMAIL_PORT = 587
 
