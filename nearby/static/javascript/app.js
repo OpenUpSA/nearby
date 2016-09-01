@@ -70,7 +70,7 @@ $(function() {
     map.addLayer(osm);
 
     var wardId = $('#map').attr('data');
-    var url = "http://mapit.code4sa.org/area/MDB:" + wardId + ".geojson?type=WD";
+    var url = "http://mapit.code4sa.org/area/MDB:" + wardId + ".geojson?type=WD&generation=2";
 
     $.getJSON(url).
       then(function(data) {
@@ -87,7 +87,7 @@ $(function() {
     queryTokenizer: Bloodhound.tokenizers.whitespace,
     datumTokenizer: Bloodhound.tokenizers.whitespace,
     remote: {
-      url: 'http://mapit.code4sa.org/address?partial=1&generation=1&type=WD&address=QUERY',
+      url: 'http://mapit.code4sa.org/address?partial=1&generation=2&type=WD&address=QUERY',
       wildcard: 'QUERY',
       rateLimitWait: 600,
       transform: function(response) {
