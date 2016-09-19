@@ -78,9 +78,10 @@ class WardInfoFinder(object):
         self.cache = get_cache('iec')
 
     def ward_for_address(self, address):
-        resp = requests.get('http://wards.code4sa.org', params={
+        resp = requests.get('https://mapit.code4sa.org/address', params={
             'address': address,
-            'database': 'wards_2011'
+            'generation': 2,
+            'type': 'WD',
         })
         resp.raise_for_status()
         data = resp.json()
@@ -89,7 +90,10 @@ class WardInfoFinder(object):
             log.warn("Error for address '%s': %s" % (address, data))
             return None
 
-        return data[0]
+        data = [v for k, v in data.iteritems() if k != "addresses"]
+        if data:
+            return data[0]
+        return None
 
     def ward_for_location(self, lat, lng):
         return self.ward_for_address('%s,%s' % (lat, lng))

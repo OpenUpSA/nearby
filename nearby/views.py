@@ -40,7 +40,7 @@ def councillor(request):
             bad_address = True
 
     if ward:
-        return redirect(reverse('ward_councillor', kwargs={'ward_id': ward['ward']}))
+        return redirect(reverse('ward_councillor', kwargs={'ward_id': ward['name']}))
 
     return render(request, 'councillor/index.html', dict(
                   bad_address=bad_address))
