@@ -123,7 +123,7 @@ CACHES['iec'] = {
 
 # Google sheets
 GOOGLE_SHEETS_EMAIL = os.environ.get('GOOGLE_SHEETS_EMAIL')
-GOOGLE_SHEETS_PRIVATE_KEY = os.environ.get('GOOGLE_SHEETS_PRIVATE_KEY')
+GOOGLE_SHEETS_PRIVATE_KEY = os.environ.get('GOOGLE_SHEETS_PRIVATE_KEY').replace('\\n', '\n')
 GOOGLE_SHEETS_SHEET_KEY = "1rtez8t8MGtG7vTQe-wyCrIgsgejwddoshrPkYPECC7E"
 
 # if DEBUG:

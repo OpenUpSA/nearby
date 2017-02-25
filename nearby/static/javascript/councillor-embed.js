@@ -1,5 +1,5 @@
 function CouncillorEmbed(options) {
-  var url = options.url || 'http://nearby.code4sa.org/councillor/';
+  var url = options.url || '//nearby.code4sa.org/councillor/';
   if (options.qs) {
     url = url + options.qs;
   }
