@@ -96,7 +96,20 @@ class WardInfoFinder(object):
         return None
 
     def ward_for_location(self, lat, lng):
-        return self.ward_for_address('%s,%s' % (lat, lng))
+        resp = requests.get('https://mapit.code4sa.org/point/4326/%s,%s' % (lng, lat), verify=False, params={
+            'generation': 2,
+            'type': 'WD',
+        })
+        resp.raise_for_status()
+        data = resp.json()
+
+        if 'error' in data:
+            log.warn("Error for lat/long %s, %s: %s" % (lat, lng, data))
+            return None
+
+        if data:
+            return data.values()[0]
+        return None
 
     def councillor_for_ward(self, ward_id, with_contact_details=True):
         cache_key = 'councillor-ward-%s' % ward_id
