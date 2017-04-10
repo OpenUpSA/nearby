@@ -78,7 +78,7 @@ class WardInfoFinder(object):
         self.cache = get_cache('iec')
 
     def ward_for_address(self, address):
-        resp = requests.get('https://mapit.code4sa.org/address', params={
+        resp = requests.get('https://mapit.code4sa.org/address', verify=False, params={
             'address': address,
             'generation': 2,
             'type': 'WD',
