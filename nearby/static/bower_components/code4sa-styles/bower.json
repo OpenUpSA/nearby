@@ -1,12 +1,12 @@
 {
   "name": "code4sa-styles",
   "version": "0.9.4",
-  "homepage": "https://github.com/Code4SA/styles",
+  "homepage": "https://github.com/OpenUpSA/styles",
   "authors": [
-    "Greg Kempe <greg@code4sa.org>",
+    "Greg Kempe <greg@openup.org.za>",
     "Fritz Jooste <fritz@fritzjooste.com>"
   ],
-  "description": "Code for South Africa Website Styleguide",
+  "description": "OpenUp Website Styleguide",
   "license": "MIT",
   "ignore": [
     "**/.*",

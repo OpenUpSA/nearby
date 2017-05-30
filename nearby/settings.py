@@ -87,7 +87,7 @@ USE_TZ = True
 
 
 # Email
-ADMINS = [('Code4SA', 'webapps@code4sa.org')]
+ADMINS = [('Code4SA', 'webapps@openup.org.za')]
 DEFAULT_FROM_EMAIL = ADMINS[0][1]
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
 

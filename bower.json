@@ -2,14 +2,14 @@
   "name": "code4sa-django-template",
   "version": "0.0.1",
   "authors": [
-    "Greg Kempe <greg@code4sa.org>"
+    "Greg Kempe <greg@openup.org.za>"
   ],
   "description": "Code4SA Django Template",
   "moduleType": [
     "globals"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/Code4SA/django-template",
+  "homepage": "https://github.com/OpenUpSA/django-template",
   "private": true,
   "ignore": [
     "**/.*",
