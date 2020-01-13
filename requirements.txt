@@ -17,7 +17,6 @@ gunicorn==19.2.1
 httplib2==0.10.3
 idna==2.5
 ipaddress==1.0.18
-newrelic==2.86.1.66
 oauth2client==1.4.11
 packaging==16.8
 pathlib==1.0.1

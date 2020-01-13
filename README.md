@@ -26,7 +26,7 @@ Local development
 3. ``pip install -r requirements.txt``
 
 You will need to set some environment variables, which are in the Nearby projects folder
-on Google Drive. The GOOGLE_SHEETS_API_KEY is big, the simplest way to handle it is to 
+on Google Drive. The GOOGLE_SHEETS_API_KEY is big, the simplest way to handle it is to
 download it into a local file.
 
 ```
@@ -52,7 +52,6 @@ Production deployment assumes you're running on Heroku.
 You will need:
 
 * a django secret key
-* a New Relic license key
 * a cool app name
 * Google Sheets API email (see http://gspread.readthedocs.org/en/latest/oauth2.html)
 * Google Sheets API private key
@@ -63,8 +62,6 @@ heroku addons:add heroku-postgresql
 heroku config:set DJANGO_DEBUG=false \
                   DISABLE_COLLECTSTATIC=1 \
                   DJANGO_SECRET_KEY=some-secret-key \
-                  NEW_RELIC_APP_NAME=cool app name \
-                  NEW_RELIC_LICENSE_KEY=new relic license key \
                   IEC_API_USERNAME=the-username \
                   IEC_API_PASSWORD=the-password \
                   GOOGLE_SHEETS_EMAIL=google sheets user email \
