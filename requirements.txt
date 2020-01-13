@@ -15,7 +15,7 @@ futures==3.1.1
 gevent==1.2.1
 greenlet==0.4.12
 gspread==0.2.5
-gunicorn==19.2.1
+gunicorn==19.5.0
 httplib2==0.10.3
 idna==2.5
 ipaddress==1.0.18
