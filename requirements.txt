@@ -20,7 +20,7 @@ ipaddress==1.0.18
 oauth2client==1.4.11
 packaging==16.8
 pathlib==1.0.1
-psycopg2==2.6
+psycopg2==2.7
 pyasn1==0.1.7
 pyasn1-modules==0.0.5
 pycparser==2.17
