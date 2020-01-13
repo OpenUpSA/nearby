@@ -1,3 +1,5 @@
+--no-binary psycopg2
+
 appdirs==1.4.3
 arrow==0.5.4
 asn1crypto==0.22.0
