@@ -6,7 +6,7 @@ asn1crypto==0.22.0
 cffi==1.10.0
 cryptography==1.9
 dj-database-url==0.3.0
-Django==1.8.2
+Django==1.11.28
 django-extensions==1.5.0
 django-memoize==1.2.0
 django-pipeline==1.5.1
