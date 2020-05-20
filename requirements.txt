@@ -16,7 +16,7 @@ gevent==1.2.1
 greenlet==0.4.12
 gspread==0.2.5
 gunicorn==19.2.1
-httplib2==0.10.3
+httplib2==0.18.0
 idna==2.5
 ipaddress==1.0.18
 oauth2client==1.4.11
