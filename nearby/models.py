@@ -127,6 +127,8 @@ class WardInfoFinder:
                 # no luck :(
                 raise e
 
+        print(data)
+
         if with_contact_details:
             # merge in contact details
             data['custom_contact_details'] = self.councillor_contact_details(ward_id) or {}
@@ -136,9 +138,13 @@ class WardInfoFinder:
     def councillor_contact_details(self, ward_id):
         """ Fetch councillor contact details for this ward.
         """
-        for ward in self.gsheets_records():
-            if str(ward['ward_id']) == ward_id:
-                return ward
+        try:
+            for ward in self.gsheets_records():
+                if str(ward['ward_id']) == ward_id:
+                    return ward
+        except Exception as e:
+            log.exception("Error fetching records from google sheet")
+            return None
 
     @memoize(timeout=MEMOIZE_SECS)
     def gsheets_records(self):
