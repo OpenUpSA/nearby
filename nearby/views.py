@@ -48,7 +48,7 @@ def councillor(request):
 
 @xframe_options_exempt
 def ward_councillor(request, ward_id, format='html'):
-    councillor = finder.councillor_for_ward(ward_id)
+    councillor = finder.councillor_for_ward(ward_id, with_contact_details=False)
     if not councillor:
         raise Http404()
 
