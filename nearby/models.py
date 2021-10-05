@@ -3,11 +3,11 @@ import logging
 import arrow
 import requests
 import gspread
-from oauth2client.client import SignedJwtAssertionCredentials
+from oauth2client.service_account import ServiceAccountCredentials
 from memoize import memoize
 
 from django.conf import settings
-from django.core.cache import get_cache
+from django.core.cache import caches
 
 
 log = logging.getLogger(__name__)
@@ -75,7 +75,7 @@ class WardInfoFinder(object):
         # We use this cache to store the results from the IEC
         # indefinitely, and use them as a fallback when the IEC's
         # site is down.
-        self.cache = get_cache('iec')
+        self.cache = caches('iec')
 
     def ward_for_address(self, address):
         resp = requests.get('https://mapit.code4sa.org/address', verify=False, params={
@@ -159,7 +159,7 @@ def get_gsheets_creds():
     scope = ['https://spreadsheets.google.com/feeds']
 
     if not _gsheets_creds:
-        _gsheets_creds = SignedJwtAssertionCredentials(
+        _gsheets_creds = ServiceAccountCredentials(
             settings.GOOGLE_SHEETS_EMAIL,
             settings.GOOGLE_SHEETS_PRIVATE_KEY,
             scope)

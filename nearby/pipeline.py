@@ -6,13 +6,7 @@ import scss
 
 from django.conf import settings
 
-from whitenoise.django import GzipManifestStaticFilesStorage
-from pipeline.storage import PipelineMixin
 from pipeline.compilers import SubProcessCompiler
-
-
-class GzipManifestPipelineStorage(PipelineMixin, GzipManifestStaticFilesStorage):
-    pass
 
 
 class PyScssCompiler(SubProcessCompiler):
