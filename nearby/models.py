@@ -18,7 +18,7 @@ log = logging.getLogger(__name__)
 MEMOIZE_SECS = 60 * 60
 
 
-class IECClient(object):
+class IECClient:
     def __init__(self, username, password, url=None):
         self.url = url or 'https://api.elections.org.za'
         self.username = username
@@ -36,10 +36,10 @@ class IECClient(object):
         if not auth:
             return {}
         else:
-            return {'Authorization': 'Bearer %s' % self.auth_token}
+            return {'Authorization': f'Bearer {self.auth_token}'}
 
     def ward_councillor(self, ward_id):
-        resp = self.get('/api/v1/LGEWardCouncilor?WardID=%s' % ward_id)
+        resp = self.get(f'/api/v1/LGEWardCouncilor?WardID={ward_id}')
         resp.raise_for_status()
 
         if resp.status_code == 204 or not resp.text:
@@ -62,20 +62,20 @@ class IECClient(object):
         resp.raise_for_status()
         data = resp.json()
 
-        log.info("Got new auth token: %s" % data)
+        log.info(f"Got new auth token: {data}")
         self.token_expires = arrow.get(data['.expires'], 'ddd, DD MMM YYYY HH:mm:ss')
         self.token = data['access_token']
         return self.token
 
 
-class WardInfoFinder(object):
+class WardInfoFinder:
     def __init__(self, iec_api, sheet_key):
         self.iec = iec_api
         self.sheet_key = sheet_key
         # We use this cache to store the results from the IEC
         # indefinitely, and use them as a fallback when the IEC's
         # site is down.
-        self.cache = caches('iec')
+        self.cache = caches['iec']
 
     def ward_for_address(self, address):
         resp = requests.get('https://mapit.code4sa.org/address', verify=False, params={
@@ -87,7 +87,7 @@ class WardInfoFinder(object):
         data = resp.json()
 
         if 'error' in data:
-            log.warn("Error for address '%s': %s" % (address, data))
+            log.warning(f"Error for address '{address}': {data}")
             return None
 
         data = [v for k, v in data.iteritems() if k != "addresses"]
@@ -96,7 +96,7 @@ class WardInfoFinder(object):
         return None
 
     def ward_for_location(self, lat, lng):
-        resp = requests.get('https://mapit.code4sa.org/point/4326/%s,%s' % (lng, lat), verify=False, params={
+        resp = requests.get(f'https://mapit.code4sa.org/point/4326/{lng},{lat}', verify=False, params={
             'generation': 2,
             'type': 'WD',
         })
@@ -104,7 +104,7 @@ class WardInfoFinder(object):
         data = resp.json()
 
         if 'error' in data:
-            log.warn("Error for lat/long %s, %s: %s" % (lat, lng, data))
+            log.warning(f"Error for lat/long {lat}, {lng}: {data}")
             return None
 
         if data:
@@ -112,7 +112,7 @@ class WardInfoFinder(object):
         return None
 
     def councillor_for_ward(self, ward_id, with_contact_details=True):
-        cache_key = 'councillor-ward-%s' % ward_id
+        cache_key = f'councillor-ward-{ward_id}'
 
         try:
             data = self.iec.ward_councillor(ward_id)
@@ -121,7 +121,7 @@ class WardInfoFinder(object):
             self.cache.set(cache_key, data, None)
         except requests.HTTPError as e:
             # try the cache
-            log.warn("Error from IEC, trying our local cache: %s" % e.message, exc_info=e)
+            log.warning(f"Error from IEC, trying our local cache: {e.message}", exc_info=e)
             data = self.cache.get(cache_key)
             if data is None:
                 # no luck :(
@@ -145,7 +145,7 @@ class WardInfoFinder(object):
         """ Get all records from the google sheet, as a list of dicts.
         """
         gsheets = get_gsheets_client()
-        log.info("Fetching Google Sheets %s" % self.sheet_key)
+        log.info(f"Fetching Google Sheets {self.sheet_key}")
         spreadsheet = gsheets.open_by_key(self.sheet_key)
         worksheet = spreadsheet.sheet1
         return worksheet.get_all_records()

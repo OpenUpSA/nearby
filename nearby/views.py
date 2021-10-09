@@ -69,7 +69,7 @@ def ward_councillor(request, ward_id, format='html'):
         normalise_url(location['councillor']['PartyDetail']['ContactDetails']['WebsiteUrl'])
 
     if format == 'json':
-        return HttpResponse(json.dumps(location), content_type = "application/json")
+        return HttpResponse(json.dumps(location), content_type="application/json")
 
     form = SuggestionForm(data={'ward_id': ward_id})
 

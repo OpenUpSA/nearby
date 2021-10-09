@@ -26,14 +26,14 @@ class SuggestionForm(forms.Form):
     def save(self, request):
         # check for honey pot, if this is filled in, ignore the submission
         if self.cleaned_data['website']:
-            log.info("Honeypot not empty, ignoring spammy submission: %s" % self.cleaned_data)
+            log.info(f"Honeypot not empty, ignoring spammy submission: {self.cleaned_data}")
             return
 
         sheets = get_gsheets_client()
         spreadsheet = sheets.open_by_key(settings.GOOGLE_SHEETS_SHEET_KEY)
         worksheet = spreadsheet.worksheet('Suggestions')
 
-        log.info("Saving suggestion: %s" % self.cleaned_data)
+        log.info(f"Saving suggestion: {self.cleaned_data}")
         worksheet.append_row([
             datetime.now().isoformat(),
             self.cleaned_data['ward_id'],
