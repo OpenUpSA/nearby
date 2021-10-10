@@ -32,7 +32,5 @@ RUN set -ex; \
 USER django
 
 WORKDIR /app
-
-EXPOSE 5000
-ENV PATH $PATH:$HOME/.local/bin
+ENV PATH="/home/django/.local/bin:${PATH}"
 RUN pip install -r requirements.txt
