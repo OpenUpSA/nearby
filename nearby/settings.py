@@ -84,15 +84,19 @@ WSGI_APPLICATION = 'nearby.wsgi.application'
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 
-
 # Database
-# https://docs.djangoproject.com/en/1.7/ref/settings/#databases
-import dj_database_url
-db_config = dj_database_url.config(default='postgresql://nearby:nearby@localhost:5432/nearby')
-db_config['ATOMIC_REQUESTS'] = True
+# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 DATABASES = {
-    'default': db_config,
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('POSTGRES_DB'),
+        'USER': os.environ.get('POSTGRES_USER'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        'HOST': os.environ.get('POSTGRES_HOST'),
+        'PORT': 5432
+    }
 }
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
