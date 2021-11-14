@@ -12,20 +12,13 @@ services:
       - .:/app
     ports:
       - "8000:8000"
-    command: >
-      sh -c "chmod +x ./bin/wait-for-postgres.sh &&
-            ./bin/wait-for-postgres.sh &&
-            python manage.py runserver 0.0.0.0:8000"
+    command: sh -c "python manage.py runserver 0.0.0.0:8000"
     depends_on:
       - db
     links:
       - db:db
     environment:
-      - DATABASE_URL=postgresql://nearby:nearby@localhost:5432/nearby
-      - POSTGRES_USER=nearby
-      - POSTGRES_PASSWORD=nearby
-      - POSTGRES_DB=nearby
-      - POSTGRES_HOST=db
+      - DATABASE_URL=postgresql://nearby:nearby@db:5432/nearby
       - DJANGO_DEBUG=True
       - DJANGO_DEBUG_TOOLBAR
       - DJANGO_SECRET_KEY=not-secret-in-dev
