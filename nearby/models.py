@@ -108,7 +108,7 @@ class WardInfoFinder:
             return None
 
         if data:
-            return data.values()[0]
+            return list(data.values())[0]
         return None
 
     def councillor_for_ward(self, ward_id, with_contact_details=True):
