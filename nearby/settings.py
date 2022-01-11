@@ -18,16 +18,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
-env = environ.Env(
-    # set casting, default value
-    DEBUG=(bool, False)
-)
+env = environ.Env()
 
 # Take environment variables from .env file
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DJANGO_DEBUG', 'true') == 'true'
+DEBUG = env.bool('DJANGO_DEBUG', True)
 
 # SECURITY WARNING: keep the secret key used in production secret!
 if DEBUG:
@@ -179,6 +176,9 @@ PYSCSS_LOAD_PATHS = [
     os.path.join(BASE_DIR, 'nearby', 'static'),
     os.path.join(BASE_DIR, 'nearby', 'static', 'bower_components'),
 ]
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'nearby/static'),
+)
 PIPELINE = {
     'CSS_COMPRESSOR': None,
     'JS_COMPRESSOR': None,
