@@ -227,8 +227,7 @@ PIPELINE = {
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
-
+STATICFILES_STORAGE = 'nearby.storage.WhitenoiseCompressedPipelineStorage'
 
 
 # Logging
