@@ -2,7 +2,7 @@ import re
 import json
 
 from django.conf import settings
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.shortcuts import render, redirect
 from django.http import Http404, HttpResponse
 from django.views.decorators.clickjacking import xframe_options_exempt
@@ -69,7 +69,7 @@ def ward_councillor(request, ward_id, format='html'):
         normalise_url(location['councillor']['PartyDetail']['ContactDetails']['WebsiteUrl'])
 
     if format == 'json':
-        return HttpResponse(json.dumps(location), content_type = "application/json")
+        return HttpResponse(json.dumps(location), content_type="application/json")
 
     form = SuggestionForm(data={'ward_id': ward_id})
 

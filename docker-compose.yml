@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+
+  web:
+    build:
+      context: .
+      args:
+        USER_ID: ${USER_ID:-1001}
+        GROUP_ID: ${GROUP_ID:-1001}
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    command: sh -c "python manage.py runserver 0.0.0.0:8000"
+    depends_on:
+      - db
+    links:
+      - db:db
+    environment:
+      - DATABASE_URL=postgresql://nearby:nearby@db:5432/nearby
+      - DJANGO_DEBUG=True
+      - DJANGO_DEBUG_TOOLBAR
+      - DJANGO_SECRET_KEY=not-secret-in-dev
+      - DJANGO_WHITENOISE_AUTOREFRESH=True
+      - TAG_MANAGER_ENABLED=False
+      - IEC_API_USERNAME=<IEC_API_USERNAME>
+      - IEC_API_PASSWORD=<IEC_API_PASSWORD>
+      - GOOGLE_SHEETS_EMAIL=<GOOGLE_SHEETS_EMAIL>
+      - GOOGLE_SHEETS_PRIVATE_KEY=<GOOGLE_SHEETS_PRIVATE_KEY>
+
+  db:
+    image: postgres:11.6
+    environment:
+      - POSTGRES_USER=nearby
+      - POSTGRES_PASSWORD=nearby
+      - POSTGRES_DB=nearby
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+volumes:
+  db-data:

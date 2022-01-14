@@ -10,14 +10,18 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import environ
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
+env = environ.Env()
+
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DJANGO_DEBUG', 'true') == 'true'
+DEBUG = env.bool('DJANGO_DEBUG', True)
 
 # SECURITY WARNING: keep the secret key used in production secret!
 if DEBUG:
@@ -50,31 +54,46 @@ INSTALLED_APPS = (
     'nearby',
 )
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-)
+]
 
 ROOT_URLCONF = 'nearby.urls'
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+                'nearby.context_processors.google_analytics',
+            ],
+        },
+    },
+]
 
 WSGI_APPLICATION = 'nearby.wsgi.application'
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 
-
 # Database
-# https://docs.djangoproject.com/en/1.7/ref/settings/#databases
-import dj_database_url
-db_config = dj_database_url.config(default='postgresql://nearby:nearby@localhost:5432/nearby')
-db_config['ATOMIC_REQUESTS'] = True
+# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 DATABASES = {
-    'default': db_config,
+    'default': env.db(),
 }
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
@@ -131,21 +150,6 @@ GOOGLE_SHEETS_SHEET_KEY = "1rtez8t8MGtG7vTQe-wyCrIgsgejwddoshrPkYPECC7E"
 #     _create_unverified_https_context = ssl._create_unverified_context
 #     ssl._create_default_https_context = _create_unverified_https_context
 
-
-# Templates
-TEMPLATE_DEBUG = DEBUG
-TEMPLATE_CONTEXT_PROCESSORS = (
-    "django.contrib.auth.context_processors.auth",
-    "django.core.context_processors.debug",
-    "django.core.context_processors.i18n",
-    "django.core.context_processors.media",
-    "django.core.context_processors.static",
-    "django.core.context_processors.tz",
-    "django.contrib.messages.context_processors.messages",
-    "nearby.context_processors.google_analytics",
-)
-
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
@@ -169,51 +173,53 @@ PYSCSS_LOAD_PATHS = [
     os.path.join(BASE_DIR, 'nearby', 'static'),
     os.path.join(BASE_DIR, 'nearby', 'static', 'bower_components'),
 ]
-
-PIPELINE_CSS = {
-    'css': {
-        'source_filenames': (
-            'bower_components/code4sa-styles/css/code4sa-custom-bootstrap.css',
-            'bower_components/fontawesome/css/font-awesome.css',
-            'stylesheets/leaflet.css',
-            'stylesheets/app.scss',
-        ),
-        'output_filename': 'app.css',
-    },
-}
-PIPELINE_JS = {
-    'js': {
-        'source_filenames': (
-            'bower_components/jquery/dist/jquery.min.js',
-            'bower_components/code4sa-styles/js/bootstrap.min.js',
-            'bower_components/code4sa-styles/js/bootstrap.min.js',
-            'bower_components/typeahead.js/dist/typeahead.bundle.min.js',
-            'bower_components/handlebars/handlebars.min.js',
-            'javascript/leaflet.js',
-            'javascript/pym.min.js',
-            'javascript/app.js',
-        ),
-        'output_filename': 'app.js',
-    },
-    'nearby-embed-js': {
-        'source_filenames': (
-            'javascript/pym.min.js',
-            'javascript/councillor-embed.js',
-        ),
-        'output_filename': 'councillor-embed.js',
-    },
-}
-PIPELINE_CSS_COMPRESSOR = None
-PIPELINE_JS_COMPRESSOR = None
-PIPELINE_DISABLE_WRAPPER = True
-
-PIPELINE_COMPILERS = (
-    'nearby.pipeline.PyScssCompiler',
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'nearby/static'),
 )
+PIPELINE = {
+    'CSS_COMPRESSOR': None,
+    'JS_COMPRESSOR': None,
+    'DISABLE_WRAPPER': True,
+    'COMPILERS': ('nearby.pipeline.PyScssCompiler',),
+    'JAVASCRIPT': {
+        'js': {
+            'source_filenames': (
+                'bower_components/jquery/dist/jquery.min.js',
+                'bower_components/code4sa-styles/js/bootstrap.min.js',
+                'bower_components/code4sa-styles/js/bootstrap.min.js',
+                'bower_components/typeahead.js/dist/typeahead.bundle.min.js',
+                'bower_components/handlebars/handlebars.min.js',
+                'javascript/leaflet.js',
+                'javascript/pym.min.js',
+                'javascript/app.js',
+            ),
+            'output_filename': 'app.js',
+        },
+        'nearby-embed-js': {
+            'source_filenames': (
+                'javascript/pym.min.js',
+                'javascript/councillor-embed.js',
+            ),
+            'output_filename': 'councillor-embed.js',
+        },
+    },
+    'STYLESHEETS': {
+        'css': {
+            'source_filenames': (
+                'bower_components/code4sa-styles/css/code4sa-custom-bootstrap.css',
+                'bower_components/fontawesome/css/font-awesome.css',
+                'stylesheets/leaflet.css',
+                'stylesheets/app.scss',
+            ),
+            'output_filename': 'app.css',
+        },
+    }
+}
+
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
-STATICFILES_STORAGE = 'nearby.pipeline.GzipManifestPipelineStorage'
+STATICFILES_STORAGE = 'nearby.pipeline.CompressedManifestPipelineStorage'
 
 
 # Logging
