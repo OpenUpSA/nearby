@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.conf.urls.static import static
 from django.conf.urls import url
 from django.urls import path
 from django.views.generic.base import RedirectView
@@ -12,4 +14,4 @@ urlpatterns = [
         # cache for 12 hours
         cache_page(60 * 60 * 12)(ward_councillor), name='ward_councillor'),
     path('councillor/suggestion/', councillor_suggestion, name='councillor_suggestion'),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
