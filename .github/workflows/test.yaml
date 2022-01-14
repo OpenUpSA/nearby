@@ -1,0 +1,20 @@
+name: Test
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "0 0 * * 0" # weekly
+jobs:
+  test:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Configure variables to run container under host user ID
+        run: export USER_ID=$(id -u) && export GROUP_ID=$(id -g)
+      - run: docker-compose run --rm web bin/wait-for-postgres.sh python manage.py migrate
+      - name: Start server
+        run: docker-compose up -d
+      - name: "Smoke test"
+        run: wget --retry-connrefused --waitretry=3 --read-timeout=10 --timeout=10 --tries=10 -O-  "http://localhost:8000/" | grep "Find your ward councillor"
+      - run: docker-compose logs web
+        if: ${{ always() }}
