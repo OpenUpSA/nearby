@@ -4,10 +4,12 @@ from django.conf.urls import url
 from django.urls import path
 from django.views.generic.base import RedirectView
 from django.views.decorators.cache import cache_page
+from django.contrib import admin
 
 from nearby.views import ward_councillor, councillor, councillor_suggestion
 
 urlpatterns = [
+    path('admin/', admin.site.urls),
     path('', RedirectView.as_view(url='/councillor')),
     path('councillor/', councillor, name='councillor'),
     url(r'^councillor/ward-(?P<ward_id>[0-9]+)(\.(?P<format>json|html))?$',
