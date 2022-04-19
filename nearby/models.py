@@ -1,3 +1,4 @@
+from asyncio.windows_events import NULL
 import logging
 
 import arrow
@@ -8,6 +9,8 @@ from memoize import memoize
 
 from django.conf import settings
 from django.core.cache import caches
+
+from django.db import models
 
 
 log = logging.getLogger(__name__)
@@ -175,3 +178,10 @@ def get_gsheets_creds():
 
 def get_gsheets_client():
     return gspread.authorize(get_gsheets_creds())
+
+
+class CouncillorContactInfo(models.Model):
+    ward_id = models.int(unique=True)
+    councillor = models.CharField(max_length=256, unique=True)
+    phone = models.CharField(max_length=256, NULL=True)
+    email = models.CharField(max_length=256, NULL=True)
