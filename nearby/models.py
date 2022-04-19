@@ -1,4 +1,3 @@
-from asyncio.windows_events import NULL
 import logging
 
 import arrow
@@ -181,7 +180,8 @@ def get_gsheets_client():
 
 
 class CouncillorContactInfo(models.Model):
-    ward_id = models.int(unique=True)
+    id = models.AutoField(primary_key=True)    
+    ward_id = models.CharField(max_length=256, unique=True)
     councillor = models.CharField(max_length=256, unique=True)
-    phone = models.CharField(max_length=256, NULL=True)
-    email = models.CharField(max_length=256, NULL=True)
+    phone = models.CharField(max_length=256, blank=True)
+    email = models.CharField(max_length=256, blank=True)
