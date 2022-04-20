@@ -14,5 +14,3 @@ class TestModels(TestCase):
         self.assertEqual(str(councillor), "Jim Testingson")
         self.assertEqual(str(phone), "123 456 7890")
         self.assertEqual(str(email), "jim@gov.za")
-
-        print("Jim Testington")
