@@ -180,8 +180,12 @@ def get_gsheets_client():
 
 
 class CouncillorContactInfo(models.Model):
+
     id = models.AutoField(primary_key=True)    
     ward_id = models.CharField(max_length=100, unique=True)
     councillor = models.CharField(max_length=200, unique=True)
     phone = models.CharField(max_length=200, blank=True)
     email = models.CharField(max_length=200, blank=True)
+
+    def __str__(self):
+        return self.ward_id
