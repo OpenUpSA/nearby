@@ -15,6 +15,18 @@ from django.db import models
 log = logging.getLogger(__name__)
 
 
+class CouncillorContactInfo(models.Model):
+
+    id = models.AutoField(primary_key=True)    
+    ward_id = models.CharField(max_length=100, unique=True)
+    councillor = models.CharField(max_length=200, unique=True)
+    phone = models.CharField(max_length=200, blank=True)
+    email = models.CharField(max_length=200, blank=True)
+
+    def __str__(self):
+        return self.ward_id
+
+
 # How long should we cache google sheets and IEC data for?
 # Bear in mind that we cache an entire ward page for 12 hours
 MEMOIZE_SECS = 60 * 60
@@ -61,6 +73,8 @@ class IECClient:
             'username': self.username,
             'password': self.password,
         })
+        if resp.status_code == 400:
+            log.warning(resp.content)
         resp.raise_for_status()
         data = resp.json()
 
@@ -123,7 +137,7 @@ class WardInfoFinder:
             self.cache.set(cache_key, data, None)
         except requests.HTTPError as e:
             # try the cache
-            log.warning(f"Error from IEC, trying our local cache: {e.message}", exc_info=e)
+            log.warning(f"Error from IEC, trying our local cache: {e}", exc_info=e)
             data = self.cache.get(cache_key)
             if data is None:
                 # no luck :(
@@ -131,61 +145,9 @@ class WardInfoFinder:
 
         print(data)
 
-        if with_contact_details:
-            # merge in contact details
-            data['custom_contact_details'] = self.councillor_contact_details(ward_id) or {}
+        # Fetch Cllr contact info matching ward_id
+        # if 0 matches use empty dict
+        # else turn 1st match into dict and use that
+        data['custom_contact_details'] = self.councillor_contact_details(ward_id) or {}
 
         return data
-
-    def councillor_contact_details(self, ward_id):
-        """ Fetch councillor contact details for this ward.
-        """
-        try:
-            for ward in self.gsheets_records():
-                if str(ward['ward_id']) == ward_id:
-                    return ward
-        except Exception as e:
-            log.exception("Error fetching records from google sheet")
-            return None
-
-    @memoize(timeout=MEMOIZE_SECS)
-    def gsheets_records(self):
-        """ Get all records from the google sheet, as a list of dicts.
-        """
-        gsheets = get_gsheets_client()
-        log.info(f"Fetching Google Sheets {self.sheet_key}")
-        spreadsheet = gsheets.open_by_key(self.sheet_key)
-        worksheet = spreadsheet.sheet1
-        return worksheet.get_all_records()
-
-
-_gsheets_creds = None
-
-
-def get_gsheets_creds():
-    global _gsheets_creds
-    scope = ['https://spreadsheets.google.com/feeds']
-
-    if not _gsheets_creds:
-        _gsheets_creds = ServiceAccountCredentials(
-            settings.GOOGLE_SHEETS_EMAIL,
-            settings.GOOGLE_SHEETS_PRIVATE_KEY,
-            scope)
-
-    return _gsheets_creds
-
-
-def get_gsheets_client():
-    return gspread.authorize(get_gsheets_creds())
-
-
-class CouncillorContactInfo(models.Model):
-
-    id = models.AutoField(primary_key=True)    
-    ward_id = models.CharField(max_length=100, unique=True)
-    councillor = models.CharField(max_length=200, unique=True)
-    phone = models.CharField(max_length=200, blank=True)
-    email = models.CharField(max_length=200, blank=True)
-
-    def __str__(self):
-        return self.ward_id
