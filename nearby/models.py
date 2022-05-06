@@ -145,9 +145,17 @@ class WardInfoFinder:
 
         print(data)
 
-        # Fetch Cllr contact info matching ward_id
-        # if 0 matches use empty dict
-        # else turn 1st match into dict and use that
-        data['custom_contact_details'] = self.councillor_contact_details(ward_id) or {}
+        ward_contact_info = CouncillorContactInfo.objects.filter(ward_id=ward_id) # Fetch CouncillorContactInfo matching ward_id
+        
+        if ward_contact_info != ward_id: # if 0 matches use empty dict
+            data["custom_contact_details"] = {}
+        else:  # else turn 1st match into dict and use that
+            data['custom_contact_details'] = {
+                "councillor":ward_contact_info.values("councillor"),
+                "phone":ward_contact_info.values("phone"),
+                "email":ward_contact_info.values("email")
+                }
+
+        print(data["custom_contact_details"])
 
         return data
