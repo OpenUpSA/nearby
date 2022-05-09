@@ -143,20 +143,18 @@ class WardInfoFinder:
                 # no luck :(
                 raise e
 
-        print(data)
 
         ward_contact_info = CouncillorContactInfo.objects.filter(ward_id=ward_id) # Fetch CouncillorContactInfo matching ward_id
         
-        if ward_contact_info != ward_id: # if 0 matches use empty dict
+        if ward_contact_info.values_list("ward_id", flat=True)[0] != ward_id: # if 0 matches use empty dict
             data["custom_contact_details"] = {}
         else:  # else turn 1st match into dict and use that
             data['custom_contact_details'] = {
-                "councillor":ward_contact_info.values("councillor"),
-                "phone":ward_contact_info.values("phone"),
-                "email":ward_contact_info.values("email")
+                "phone": ward_contact_info.values_list("phone", flat=True)[0],
+                "email": ward_contact_info.values_list("email", flat=True)[0]
                 }
 
-        print(data["custom_contact_details"])
+        print(f"data: {data}")
 
         return data
 
