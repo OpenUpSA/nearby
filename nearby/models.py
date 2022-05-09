@@ -159,3 +159,23 @@ class WardInfoFinder:
         print(data["custom_contact_details"])
 
         return data
+
+
+_gsheets_creds = None
+
+
+def get_gsheets_creds():
+    global _gsheets_creds
+    scope = ['https://spreadsheets.google.com/feeds']
+
+    if not _gsheets_creds:
+        _gsheets_creds = ServiceAccountCredentials(
+            settings.GOOGLE_SHEETS_EMAIL,
+            settings.GOOGLE_SHEETS_PRIVATE_KEY,
+            scope)
+
+    return _gsheets_creds
+
+
+def get_gsheets_client():
+    return gspread.authorize(get_gsheets_creds())
