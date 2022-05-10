@@ -11,7 +11,9 @@ class TestModels(TestCase):
         if response.status_code == 200:
             contact_info = response.json()["councillor"]["custom_contact_details"]
 
-            self.assertEqual(r'contact_info, {"phone": "062-873-2894", "email": "aimeek.da@gmail.com"}')
+            test_contact_info = {"phone": "062-873-2894", "email": "aimeek.da@gmail.com"}
+
+            self.assertDictEqual(contact_info, test_contact_info)
 
         else:
             print(f"status code: {response.status_code}")
@@ -23,7 +25,9 @@ class TestModels(TestCase):
         if response.status_code == 200:
             contact_info = response.json()["councillor"]["custom_contact_details"]
 
-            self.assertEqual(r'contact_info, {}')
+            test_contact_info = {}
+
+            self.assertDictEqual(contact_info, test_contact_info)
 
         else:
             print(f"status code: {response.status_code}")
