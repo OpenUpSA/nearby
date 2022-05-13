@@ -1,33 +1,25 @@
-from django.test import TestCase
-import unittest
-import requests
+from django.test import TestCase, Client
 
 
 class TestModels(TestCase):
 
     def test_contact_info_present(self):
-        response = requests.get("http://localhost:8000/councillor/ward-19100064.json")
+        response = Client().get("http://localhost:8000/councillor/ward-19100064.json")
 
-        if response.status_code == 200:
-            contact_info = response.json()["councillor"]["custom_contact_details"]
+        contact_info = response.json()["councillor"]["custom_contact_details"]
 
-            test_contact_info = {"phone": "062-873-2894", "email": "aimeek.da@gmail.com"}
-
-            self.assertDictEqual(contact_info, test_contact_info)
-
-        else:
-            print(f"status code: {response.status_code}")
+        test_contact_info = {'phone': '062-873-2894', 'email': 'aimeek.da@gmail.com'}
+    
+        self.assertEquals(response.status_code, 200)
+        self.assertDictEqual(contact_info, test_contact_info)
 
 
     def test_contact_info_missing(self):
-        response = requests.get("http://localhost:8000/councillor/ward-19100062.json")
+        response = Client().get("http://localhost:8000/councillor/ward-19100062.json")
 
-        if response.status_code == 200:
-            contact_info = response.json()["councillor"]["custom_contact_details"]
+        contact_info = response.json()["councillor"]["custom_contact_details"]
 
-            test_contact_info = {}
+        test_contact_info = {}
 
-            self.assertDictEqual(contact_info, test_contact_info)
-
-        else:
-            print(f"status code: {response.status_code}")
+        self.assertEquals(response.status_code, 200)
+        self.assertDictEqual(contact_info, test_contact_info)
