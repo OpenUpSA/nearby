@@ -1,11 +1,6 @@
-FROM python:3.9
+FROM python:3.9.7
 
-ENV PIP_NO_CACHE_DIR off
-ENV PIP_DISABLE_PIP_VERSION_CHECK on
 ENV PYTHONUNBUFFERED 1
-ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE DontWarn
-
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 
 RUN set -ex; \
   apt-get update; \
@@ -19,18 +14,17 @@ RUN set -ex; \
   apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
   rm -rf /var/lib/apt/lists/*
 
+# Copy, then install requirements before copying rest for a requirements cache layer.
+RUN mkdir /app
+COPY requirements.txt /app
+RUN pip install -r /app/requirements.txt
+
 COPY . /app
 
-ARG USER_ID=1001
-ARG GROUP_ID=1001
-
-RUN set -ex; \
-  addgroup --gid $GROUP_ID --system django; \
-  adduser --system --uid $USER_ID --gid $GROUP_ID django; \
-  chown -R django:django /app
-
-USER django
-
 WORKDIR /app
-ENV PATH="/home/django/.local/bin:${PATH}"
-RUN pip install -r requirements.txt
+
+EXPOSE 5000
+
+RUN IEC_API_USERNAME='JUSTFORBUILD' IEC_API_PASSWORD='JUSTFORBUILD' DATABASE_URL='JUSTFORBUILD' GOOGLE_SHEETS_PRIVATE_KEY='JUSTFORBUILD' python manage.py collectstatic --noinput
+
+CMD gunicorn nearby.wsgi:application --log-file - --bind 0.0.0.0:5000
