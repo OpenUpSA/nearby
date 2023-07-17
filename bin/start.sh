@@ -6,4 +6,4 @@ set -o nounset
 
 
 python manage.py collectstatic --noinput
-gunicorn --worker-class gevent nearby.wsgi:application --log-file -
+gunicorn nearby.wsgi:application --log-file -
