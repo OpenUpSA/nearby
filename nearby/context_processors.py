@@ -7,7 +7,7 @@ def google_analytics(request):
     rendering tracking code.
     """
     ga_tracking_id = getattr(settings, 'GOOGLE_ANALYTICS_ID', False)
-    if not settings.DEBUG and ga_tracking_id:
+    if ga_tracking_id:
         return {
             'GOOGLE_ANALYTICS_ID': ga_tracking_id,
         }
