@@ -90,7 +90,7 @@ class WardInfoFinder:
             log.warning(f"Error for address '{address}': {data}")
             return None
 
-        data = [v for k, v in data.iteritems() if k != "addresses"]
+        data = [v for k, v in data.items() if k != "addresses"]
         if data:
             return data[0]
         return None
